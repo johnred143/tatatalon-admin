@@ -4,7 +4,7 @@ import "../styles/bookings.css";
 import carData from "../assets/dummy-data/booking-cars.js";
 import CarItem from "../components/UI/CarItem";
 
-const Bookings = () => {
+const Report = () => {
   return (
     <div className="bookings">
       <div className="booking__wrapper">

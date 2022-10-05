@@ -4,7 +4,7 @@ import "../styles/bookings.css";
 import carData from "../assets/dummy-data/booking-cars.js";
 import CarItem from "../components/UI/CarItem";
 
-const Request = () => {
+const PoliceDepartment = () => {
   return (
     <div className="bookings">
       <div className="booking__wrapper">
@@ -46,4 +46,4 @@ const Request = () => {
   );
 };
 
-export default Request;
+export default PoliceDepartment;
