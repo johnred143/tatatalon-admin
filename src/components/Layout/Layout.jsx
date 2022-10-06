@@ -1,20 +1,32 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+import Login from "../../pages/login";
 import Router from "../../routes/Router";
 import Sidebar from "../Sidebar/Sidebar";
 import TopNav from "../TopNav/TopNav";
 
 const Layout = () => {
+  const location = useLocation();
+  console.log(location.pathname)
+  
   return (
+   
     <div className="layout">
-      <Sidebar />
+     { location.pathname === "/login" &&
+      <Login/>
+     }
+    
+      { location.pathname !== "/login" && <div>
+        
+       <Sidebar />
       <div className="main__layout">
         <TopNav />
-
-        <div className="content">
-          <Router />
-        </div>
+       
+        <Router />
       </div>
+      </div>}
     </div>
+   
   );
 };
 

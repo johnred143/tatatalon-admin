@@ -1,10 +1,11 @@
 import React from "react";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import navLinks from "../../assets/dummy-data/navLinks";
 import "./sidebar.css";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   return (
     <div className="sidebar">
       <div className="sidebar__top">
@@ -38,7 +39,7 @@ const Sidebar = () => {
 
         <div className="sidebar__bottom">
           <span>
-            <i class="ri-logout-circle-r-line"></i> Logout
+            <i class="ri-logout-circle-r-line" onClick={() => navigate('/login')}to="/login" ></i> Logout
           </span>
         </div>
       </div>
