@@ -1,7 +1,7 @@
 import React from "react";
 
 const CarItem = (props) => {
-  const { category, type, rentPrice, imgUrl, carName, groupSize } = props.item;
+  const { category, type, rentPrice, imgUrl, carName, groupSize, } = props.item;
   
 
 

@@ -2,37 +2,63 @@ import React from "react";
 import "../styles/dashboard.css";
 import SingleCard from "../components/reuseable/SingleCard";
 
-import MileChart from "../charts/MileChart";
-import CarStatsChart from "../charts/CarStatsChart";
+
 import RecommendCarCard from "../components/UI/RecommendCarCard";
 
 import recommendCarsData from "../assets/dummy-data/recommendCars";
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 
-const carObj = {
-  title: "Total Request",
-  totalNumber: 999,
-  //icon: "ri-police-car-line",
-};
 
-const tripObj = {
-  title: "Total Reports",
-  totalNumber: 999,
- //icon: "ri-steering-2-line",
-};
-
-const clientObj = {
-  title: "Users",
-  totalNumber: 999,
-  //icon: "ri-user-line",
-};
-
-const distanceObj = {
-  title: "Pending Request & Report",
-  totalNumber: 999,
-  //icon: "ri-timer-flash-line",
-};
 
 const Dashboard = () => {
+  const[totalreq,settotalreq] =useState(0)
+  const[totalrep,settotalrep] =useState(0)
+  const[totaluser,settotaluser] =useState(0)
+  const[totalpending,settotalpending] =useState(0)
+  useEffect(()=>{
+  try {
+    async function fetchData(){
+    const con=  await  axios.get("https://barangay-talon-uno.vercel.app/log")
+settotalreq(con.data.sumreq)
+settotalrep(con.data.sumrep)
+settotalpending(con.data.total)
+settotaluser(con.data.user)
+    console.log(con.data)
+    }
+    fetchData();
+    } catch (error) {
+console.log(error)
+      
+    }
+  },[])
+  console.log(totaluser);
+  const carObj = {
+    title: "Total Request",
+    totalNumber: totalreq,
+    //icon: "ri-police-car-line",
+  };
+  
+  const tripObj = {
+    title: "Total Reports",
+    totalNumber: totalrep,
+   //icon: "ri-steering-2-line",
+  };
+  
+  const clientObj = {
+    title: "Users",
+    totalNumber: totaluser,
+    //icon: "ri-user-line",
+  };
+  
+  const distanceObj = {
+    title: "Pending Request & Report",
+    totalNumber: totalpending,
+    //icon: "ri-timer-flash-line",
+  };
+
+  
   return (
     <div className="dashboard">
       <div className="dashboard__wrapper">
