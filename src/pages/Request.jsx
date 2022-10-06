@@ -38,10 +38,6 @@ export default function RecipeReviewCard() {
     setExpanded(!expanded);
   };
 
-<<<<<<< HEAD
-=======
-const Request = () => {
->>>>>>> 266d7c4b50bdd1fb849ea3941273cdb001cac3f8
   return (
     <Container >
       <Box>
@@ -118,10 +114,4 @@ const Request = () => {
     </Container>
   
   );
-<<<<<<< HEAD
 }
-=======
-};
-
-export default Request;
->>>>>>> 266d7c4b50bdd1fb849ea3941273cdb001cac3f8
