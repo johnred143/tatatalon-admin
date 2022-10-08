@@ -1,5 +1,6 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Login from "../../pages/login";
 import Router from "../../routes/Router";
 import Sidebar from "../Sidebar/Sidebar";
@@ -7,8 +8,15 @@ import TopNav from "../TopNav/TopNav";
 
 const Layout = () => {
   const location = useLocation();
+  const navigate =useNavigate();
   console.log(location.pathname)
-  
+  useEffect(() => {
+    if (localStorage.getItem("login")){
+      navigate("/dashboard")
+    }else{
+      navigate("/login")
+    }
+  },[])
   return (
    
     <div className="layout">

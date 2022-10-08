@@ -1,11 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { NavLink, useNavigate } from "react-router-dom";
-import navLinks from "../../assets/dummy-data/navLinks";
+// import navLinks from "../../assets/dummy-data/navLinks";
 import "./sidebar.css";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const [links, setLinks] = useState([]);
+  const usertype = localStorage.getItem("usertype")
+  useEffect(() => {
+    
+    
+    if(usertype === "admin"){
+       let navLinks = [
+        {
+          path: "/dashboard",
+          icon: "ri-apps-2-line",
+          display: "Dashboard",
+        },
+        {
+          path: "/request",
+          //icon: "ri-taxi-line",
+          display: "Request",
+        },
+        {
+          path: "/report",
+          //icon: "ri-shopping-bag-line",
+          display: "Report",
+        },
+       
+      
+      ];
+      setLinks(navLinks)
+    }
+    if(usertype === "fire"){
+     let navLinks = [
+        {
+          path: "/admin/firedept",
+          display: "Fire Department",
+        },
+      
+       {
+         path: "/report",
+         //icon: "ri-shopping-bag-line",
+         display: "Report",
+       },
+      
+     
+     ];
+     setLinks(navLinks)
+    }
+    if(usertype === "police"){
+      let navLinks = [
+        {
+          path: "/admin/policedept",
+          display:"Police Department",
+        },
+      
+       {
+         path: "/report",
+         //icon: "ri-shopping-bag-line",
+         display: "Report",
+       },
+      
+     
+     ];
+     setLinks(navLinks)
+    }
+  },[usertype])
   return (
     <div className="sidebar">
       <div className="sidebar__top">
@@ -13,14 +75,14 @@ const Sidebar = () => {
           <span>
             {/* <i class="ri-taxi-line"></i> */}
           </span>{" "}
-          Admin Page
+         Talon Uno
         </h2>
       </div>
 
       <div className="sidebar__content">
         <div className="menu">
           <ul className="nav__list">
-            {navLinks.map((item, index) => (
+            {links.map((item, index) => (
               <li className="nav__item" key={index}>
                 <NavLink
                   to={item.path}
@@ -31,7 +93,7 @@ const Sidebar = () => {
                   <i className={item.icon}></i>
 
                   {item.display}
-                </NavLink>
+                </NavLink> 
               </li>
             ))}
           </ul>
@@ -39,7 +101,13 @@ const Sidebar = () => {
 
         <div className="sidebar__bottom">
           <span>
-            <i class="ri-logout-circle-r-line" onClick={() => navigate('/login')}to="/login" ></i> Logout
+            <i class="ri-logout-circle-r-line" onClick={() => {
+              localStorage.setItem("login", false)
+              navigate('/login')
+              }
+              }to="/login" 
+              >
+                </i> Logout
           </span>
         </div>
       </div>

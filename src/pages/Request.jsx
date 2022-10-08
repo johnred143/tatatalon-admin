@@ -8,7 +8,7 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import {Typography, Paper} from '@mui/material';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
@@ -19,6 +19,9 @@ import Container from '@mui/material/Container';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useState } from 'react';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -31,85 +34,133 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function RecipeReviewCard() {
-  const [expanded, setExpanded] = React.useState(false);
+export default function Request() {
+  const [expanded, setExpanded] = React.useState("");
+  const [reqlog, setReqlog] = useState([])
+  const getData = async () => {
+    try {
+        const res = await axios.get("https://barangay-talon-uno.vercel.app/log")
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+        console.log("data: ", res.data.reqlog );
+      setReqlog(res.data.reqlog  );
+    } catch (error) {
+        console.log(error);
+    }
+}
+useEffect(() => {
+  getData();
+},[])
+const handleSubmit = async({id, email,process}) => {
+    try{
+      const res = await axios.post("https://barangay-talon-uno.vercel.app/admin/report", {
+       ref: id,
+         email: email,
+         status: process
+      })
+        console.log(res.data)
+    }catch(error){
+        console.log(error)
+    }
+  console.log(id,email,process)
+}
+  const handleExpandClick = (e) => {
+    if ( e === expanded) {
+      setExpanded("123123");
+    } else {
+      setExpanded(e);
+
+    }
+    console.log(e)
   };
 
   return (
-    <Container >
+    <Container sx={{mt:15}}>
       <Box>
-      <Card sx={{ maxWidth: 345,mt:15 }}>
-      <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-      
-      <CardContent>
-        
-        <Typography variant="body2" color="text.secondary">
-          Name: 
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Email: 
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Address: 
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Contact Number: 
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Request Type: 
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Status: 
-        </Typography>
-      </CardContent>
-      </Collapse>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <CancelIcon /> 
-          <Typography>
-            cancel
-          </Typography>
-        </IconButton>
-        <IconButton aria-label="share">
-          <PendingActionsIcon />
-          <Typography>
-            pending
-          </Typography>
-        </IconButton>
-        <ExpandMore
-          
-          onClick={handleExpandClick}
-          aria-label="show more"
-        >
-          <CheckCircleIcon />
-          <Typography>
-            done
-          </Typography>
-        </ExpandMore>
-      </CardActions>
+        {
+          reqlog.map(( users, index )=> ( 
+              <React.Fragment key={index}>
+                 <Typography variant="h6" color="white">
+          Email: {users.email}
+        </Typography> 
+        {
+          users.request.map((rep, index )=> (
+              <React.Fragment key={index}>
+<Card sx={{ maxWidth: 345,mt:5 }}>
      
-    </Card>
+     <ExpandMore
+         expand={expanded === rep._id ? true : false}
+         onClick={ () => handleExpandClick(rep._id)}
+         aria-expanded={expanded}
+         aria-label="show more"
+       >
+         <ExpandMoreIcon />
+       </ExpandMore>
+     <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
+     
+     <CardContent>
+       
+       <Typography variant="body2" color="text.secondary">
+         Name: {rep.name}
+       </Typography>
+     </CardContent>
+    
+     <CardContent>
+       <Typography variant="body2" color="text.secondary">
+         Address: {rep.address}
+       </Typography>
+     </CardContent>
+     
+     <CardContent>
+       <Typography variant="body2" color="text.secondary">
+         Request Type: {rep.type}
+       </Typography>
+     </CardContent>
+     <CardContent>
+       <Typography variant="body2" color="text.secondary">
+         Purpose: {rep.purpose}
+       </Typography>
+     </CardContent>
+     <CardContent>
+       <Typography variant="body2" color="text.secondary">
+         Status: {rep.process}
+       </Typography>
+     </CardContent>
+     </Collapse>
+     <CardActions disableSpacing>
+       <IconButton aria-label="add to favorites" onClick={{}}>
+         <CancelIcon /> 
+         <Typography>
+           cancel
+         </Typography>
+       </IconButton>
+       <IconButton aria-label="share" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Pending"})}>
+         <PendingActionsIcon />
+         <Typography>
+           pending
+         </Typography>
+       </IconButton>
+       <IconButton
+         
+         onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Success"})}
+       >
+         <CheckCircleIcon />
+         <Typography>
+           done
+         </Typography>
+       </IconButton>
+     </CardActions>
+    
+   </Card>
+              </React.Fragment>
+
+          ))
+        }
+              </React.Fragment>
+          ))
+        }
+     
+     
+      
       </Box>
     </Container>
   

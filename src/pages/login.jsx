@@ -91,10 +91,19 @@ const handle = () => {
             
               username: username,
               password: password, 
+              
           })
           if(res.data.login){
             localStorage.setItem('login',res.data.login);
-            navigate("/dashboard")
+            localStorage.setItem('usertype',res.data.usertype)
+            if(res.data.usertype === "fire"){
+              navigate("/admin/firedept")
+            }if(res.data.usertype === "police"){
+              navigate("/admin/policedept")
+            }if(res.data.usertype === "admin"){
+              navigate("/dashboard")
+            }
+           
 
           }else{
             const Toast = Swal.mixin({
