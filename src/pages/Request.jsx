@@ -22,6 +22,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -58,6 +59,13 @@ const handleSubmit = async({id, email,process}) => {
          status: process
       })
         console.log(res.data)
+        Swal.fire({
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Status Changed',
+          showConfirmButton: true,
+          timer: 1500
+        })
     }catch(error){
         console.log(error)
     }
@@ -85,7 +93,7 @@ const handleSubmit = async({id, email,process}) => {
         {
           users.request.map((rep, index )=> (
               <React.Fragment key={index}>
-<Card sx={{ maxWidth: 345,mt:5 }}>
+<Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#16213E "}}>
      
      <ExpandMore
          expand={expanded === rep._id ? true : false}
@@ -99,41 +107,41 @@ const handleSubmit = async({id, email,process}) => {
      
      <CardContent>
        
-       <Typography variant="body2" color="text.secondary">
+       <Typography variant="body2"color="white">
          Name: {rep.name}
        </Typography>
      </CardContent>
     
      <CardContent>
-       <Typography variant="body2" color="text.secondary">
+       <Typography variant="body2" color="white">
          Address: {rep.address}
        </Typography>
      </CardContent>
      
      <CardContent>
-       <Typography variant="body2" color="text.secondary">
+       <Typography variant="body2" color="white">
          Request Type: {rep.type}
        </Typography>
      </CardContent>
      <CardContent>
-       <Typography variant="body2" color="text.secondary">
+       <Typography variant="body2" color="white">
          Purpose: {rep.purpose}
        </Typography>
      </CardContent>
      <CardContent>
-       <Typography variant="body2" color="text.secondary">
+       <Typography variant="body2" color="white">
          Status: {rep.process}
        </Typography>
      </CardContent>
      </Collapse>
      <CardActions disableSpacing>
-       <IconButton aria-label="add to favorites" onClick={{}}>
+       <IconButton aria-label="add to favorites" onClick={{}} color="error">
          <CancelIcon /> 
          <Typography>
            cancel
          </Typography>
        </IconButton>
-       <IconButton aria-label="share" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Pending"})}>
+       <IconButton aria-label="share" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Pending"})} color="warning">
          <PendingActionsIcon />
          <Typography>
            pending
@@ -142,6 +150,7 @@ const handleSubmit = async({id, email,process}) => {
        <IconButton
          
          onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Success"})}
+         color="success"
        >
          <CheckCircleIcon />
          <Typography>
