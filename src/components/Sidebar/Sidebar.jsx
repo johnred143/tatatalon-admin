@@ -100,12 +100,12 @@ const Sidebar = () => {
         </div>
 
         <div className="sidebar__bottom">
-          <span>
-            <i class="ri-logout-circle-r-line" onClick={() => {
+          <span onClick={() => {
               localStorage.setItem("login", false)
               navigate('/login')
               }
-              }to="/login" 
+              }>
+            <i class="ri-logout-circle-r-line" to="/login" 
               >
                 </i> Logout
           </span>
