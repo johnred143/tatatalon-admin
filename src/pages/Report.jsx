@@ -42,15 +42,38 @@ export default function Report() {
     try {
         const res = await axios.get("https://barangay-talon-uno.vercel.app/log")
 
-        console.log("data: ", res.data.replog );
-      setReplog(res.data.replog  );
+        // console.log("data: ", res.data.replog.map( i => ({
+        //   ...i,
+        //   reports: i.reports.filter( a => a.report === "Crime Related" )
+        // }) ) );
+
+        switch (localStorage.getItem("usertype")) {
+          case "police":
+            setReplog(res.data.replog.map( i => ({
+              ...i,
+              reports: i.reports.filter( a => a.report === "Crime Related" )
+            }) ) )
+            break;
+          case "fire":
+            setReplog(res.data.replog.map( i => ({
+              ...i,
+              reports: i.reports.filter( a => a.report === "Fire" )
+            }) ) )
+            break;  
+          default:
+            setReplog(res.data.replog)
+            break;
+        }
+
     } catch (error) {
         console.log(error);
     }
 }
+
 useEffect(() => {
   getData();
 },[])
+
 const handleSubmit = async({id, email,process}) => {
     try{
       const res = await axios.post("https://barangay-talon-uno.vercel.app/admin/update", {
@@ -83,18 +106,18 @@ const handleSubmit = async({id, email,process}) => {
 
   return (
     <Container sx={{mt:15}}>
+      
       <Box>
         {
-          replog.map(( users, index )=> ( 
+          replog.map(( users, index ) => ( 
               <React.Fragment key={index}>
                  <Typography variant="h6" color="white">
           Email: {users.email}
         </Typography> 
         {
-          users.reports.map((rep, index )=> (
+          users.reports.map((rep, index ) => (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#16213E "}}>
-     
      <ExpandMore
          expand={expanded === rep._id ? true : false}
          onClick={ () => handleExpandClick(rep._id)}
@@ -130,20 +153,20 @@ const handleSubmit = async({id, email,process}) => {
      </CardContent>
      </Collapse>
      <CardActions disableSpacing>
-       <IconButton aria-label="add to favorites" onClick={{}} color="error">
+       <IconButton disabled={ rep.process === "Cancelled" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Cancelled"})} color="error">
          <CancelIcon /> 
          <Typography>
            cancel
          </Typography>
        </IconButton>
-       <IconButton aria-label="share" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Pending"})} color="warning">
+       <IconButton disabled={ rep.process === "Pending" && true } aria-label="share" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Pending"})} color="warning">
          <PendingActionsIcon />
          <Typography>
            pending
          </Typography>
        </IconButton>
        <IconButton
-         
+         disabled={ rep.process === "Success" && true }
          onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Success"})}
          color="success"
        >

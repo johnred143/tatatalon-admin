@@ -135,20 +135,20 @@ const handleSubmit = async({id, email,process}) => {
      </CardContent>
      </Collapse>
      <CardActions disableSpacing>
-       <IconButton aria-label="add to favorites" onClick={{}} color="error">
+       <IconButton disabled={ rep.process === "Cancelled" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Cancelled"})} color="error">
          <CancelIcon /> 
          <Typography>
            cancel
          </Typography>
        </IconButton>
-       <IconButton aria-label="share" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Pending"})} color="warning">
+       <IconButton disabled={ rep.process === "Pending" && true } aria-label="share" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Pending"})} color="warning">
          <PendingActionsIcon />
          <Typography>
            pending
          </Typography>
        </IconButton>
        <IconButton
-         
+          disabled={ rep.process === "Success" && true }
          onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Success"})}
          color="success"
        >
