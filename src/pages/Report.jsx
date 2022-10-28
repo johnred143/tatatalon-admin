@@ -188,6 +188,7 @@ const openSearch = () =>{
           users.reports.filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index ) => (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#fff "}}>
+       Reporter: {users.email}
      <ExpandMore
          expand={expanded === rep._id ? true : false}
          onClick={ () => handleExpandClick(rep._id)}
@@ -197,7 +198,7 @@ const openSearch = () =>{
          <ExpandMoreIcon />
        </ExpandMore>
      <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
-     
+     <Paper elevation="5">
      <CardContent>
        
        <Typography variant="body2" color="black">
@@ -221,6 +222,7 @@ const openSearch = () =>{
          Status: {rep.process}
        </Typography>
      </CardContent>
+     </Paper>
      </Collapse>
      <CardActions disableSpacing>
        <IconButton disabled={ rep.process === "Success" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Cancelled"})} color="error">

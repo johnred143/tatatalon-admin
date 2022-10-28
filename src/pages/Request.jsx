@@ -120,7 +120,7 @@ const handleSubmit = async({id, email,process}) => {
           users.request.filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#fff "}}>
-  
+ {users.email}
      <ExpandMore
          expand={expanded === rep._id ? true : false}
          onClick={ () => handleExpandClick(rep._id)}
