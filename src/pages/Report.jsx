@@ -8,7 +8,7 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import {Typography, Paper} from '@mui/material';
+import {Typography, Paper, Grid, Button, TextField, InputLabel, FormControl, Input, FormHelperText, OutlinedInput} from '@mui/material';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
@@ -38,6 +38,8 @@ const ExpandMore = styled((props) => {
 export default function Report() {
   const [expanded, setExpanded] = React.useState("");
   const [replog, setReplog] = useState([])
+  const [search, setSearch] = useState('')
+  console.log(search)
   const getData = async () => {
     try {
         const res = await axios.get("https://barangay-talon-uno.vercel.app/log")
@@ -103,21 +105,89 @@ const handleSubmit = async({id, email,process}) => {
     }
     console.log(e)
   };
-
+const openSearch = () =>{
+  Swal.fire({
+    title: 'Search User',
+    input: 'text',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Look up',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`//api.github.com/users/${login}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `${result.value.login}'s avatar`,
+        imageUrl: result.value.avatar_url
+      })
+    }
+  })
+}
   return (
-    <Container sx={{mt:15}}>
-      
+    <Container bgcolor="#f2f4fb" sx={{ flexGrow: 1, p:2,mt:15 }} >
+     <TextField 
+     label="Search for User Reports" 
+     color="secondary"
+     focused 
+     fullWidth 
+      sx={{ input: { color: 'white' }, mb:2, width: 1200 }}
+     onChange={(e) => setSearch(e.target.value)}
+     />
+      {/* <FormControl>
+        <InputLabel htmlFor="component-outlined">Name</InputLabel>
+        <OutlinedInput
+          id="component-outlined"
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{ input: { color: 'white' }, mb:2, width: 1200, color:'white'}}
+          label="Name"
+          color="success"
+          focused
+          defaultValue="Search for User Report"
+        />
+      </FormControl> */}
+       <Grid
+        container
+        spacing={2}
+        
+        sx={{
+          pl:4,
+          borderTop: 'var(--Grid-borderWidth) solid',
+          borderLeft: 'var(--Grid-borderWidth) solid',
+          borderColor: 'divider',
+          '& > div': {
+            borderRight: 'var(--Grid-borderWidth) solid',
+            borderBottom: 'var(--Grid-borderWidth) solid',
+            borderColor: 'divider',
+          },
+        }}
+      >
       <Box>
         {
           replog.map(( users, index ) => ( 
               <React.Fragment key={index}>
                  <Typography variant="h6" color="white">
-          Email: {users.email}
+          {/* Email: {users.email} */}
         </Typography> 
         {
-          users.reports.map((rep, index ) => (
+          users.reports.filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index ) => (
               <React.Fragment key={index}>
-<Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#16213E "}}>
+<Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#fff "}}>
      <ExpandMore
          expand={expanded === rep._id ? true : false}
          onClick={ () => handleExpandClick(rep._id)}
@@ -130,36 +200,36 @@ const handleSubmit = async({id, email,process}) => {
      
      <CardContent>
        
-       <Typography variant="body2" color="white">
+       <Typography variant="body2" color="black">
          Name: {rep.name}
        </Typography>
      </CardContent>
     
      <CardContent>
-       <Typography variant="body2" color="white">
+       <Typography variant="body2" color="black">
          Address: {rep.addressdetail}
        </Typography>
      </CardContent>
      
      <CardContent>
-       <Typography variant="body2" color="white">
+       <Typography variant="body2" color="black">
          Report Type: {rep.report}
        </Typography>
      </CardContent>
      <CardContent>
-       <Typography variant="body2" color="white">
+       <Typography variant="body2" color="black">
          Status: {rep.process}
        </Typography>
      </CardContent>
      </Collapse>
      <CardActions disableSpacing>
-       <IconButton disabled={ rep.process === "Cancelled" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Cancelled"})} color="error">
+       <IconButton disabled={ rep.process === "Success" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Cancelled"})} color="error">
          <CancelIcon /> 
          <Typography>
            cancel
          </Typography>
        </IconButton>
-       <IconButton disabled={ rep.process === "Pending" && true } aria-label="share" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Pending"})} color="warning">
+       <IconButton disabled={ rep.process === "Success" && true } aria-label="share" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Pending"})} color="warning">
          <PendingActionsIcon />
          <Typography>
            pending
@@ -190,6 +260,7 @@ const handleSubmit = async({id, email,process}) => {
      
       
       </Box>
+      </Grid>
     </Container>
   
   );

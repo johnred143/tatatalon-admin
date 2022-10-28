@@ -8,7 +8,7 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import {Typography, Paper} from '@mui/material';
+import {Typography, Paper, Grid, TextField} from '@mui/material';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
@@ -38,6 +38,8 @@ const ExpandMore = styled((props) => {
 export default function Request() {
   const [expanded, setExpanded] = React.useState("");
   const [reqlog, setReqlog] = useState([])
+  const [search, setSearch] = useState('')
+  console.log(search)
   const getData = async () => {
     try {
         const res = await axios.get("https://barangay-talon-uno.vercel.app/log")
@@ -82,19 +84,43 @@ const handleSubmit = async({id, email,process}) => {
   };
 
   return (
-    <Container sx={{mt:15}}>
+    <Container  bgcolor="#f2f4fb" sx={{ flexGrow: 1, p:2,mt:15 }}>
+      <TextField 
+     label="Search for User Request" 
+     color="secondary"
+     focused 
+     fullWidth 
+      sx={{ input: { color: 'white' }, mb:2, width: 1200 }}
+     onChange={(e) => setSearch(e.target.value)}
+     />
+        <Grid
+        container
+        spacing={2}
+        
+        sx={{
+          pl:4,
+          borderTop: 'var(--Grid-borderWidth) solid',
+          borderLeft: 'var(--Grid-borderWidth) solid',
+          borderColor: 'divider',
+          '& > div': {
+            borderRight: 'var(--Grid-borderWidth) solid',
+            borderBottom: 'var(--Grid-borderWidth) solid',
+            borderColor: 'divider',
+          },
+        }}
+      >
       <Box>
         {
           reqlog.map(( users, index )=> ( 
               <React.Fragment key={index}>
                  <Typography variant="h6" color="white">
-          Email: {users.email}
+          {/* Email: {users.email} */}
         </Typography> 
         {
-          users.request.map((rep, index )=> (
+          users.request.filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
               <React.Fragment key={index}>
-<Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#16213E "}}>
-     
+<Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#fff "}}>
+  
      <ExpandMore
          expand={expanded === rep._id ? true : false}
          onClick={ () => handleExpandClick(rep._id)}
@@ -103,45 +129,49 @@ const handleSubmit = async({id, email,process}) => {
        >
          <ExpandMoreIcon />
        </ExpandMore>
+       //timestamp
      <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
-     
+     <Paper elevation="5">
+
+    
      <CardContent>
        
-       <Typography variant="body2"color="white">
+       <Typography variant="body2"color="black">
          Name: {rep.name}
        </Typography>
      </CardContent>
     
      <CardContent>
-       <Typography variant="body2" color="white">
+       <Typography variant="body2" color="black">
          Address: {rep.address}
        </Typography>
      </CardContent>
      
      <CardContent>
-       <Typography variant="body2" color="white">
+       <Typography variant="body2" color="black">
          Request Type: {rep.type}
        </Typography>
      </CardContent>
      <CardContent>
-       <Typography variant="body2" color="white">
+       <Typography variant="body2" color="black">
          Purpose: {rep.purpose}
        </Typography>
      </CardContent>
      <CardContent>
-       <Typography variant="body2" color="white">
+       <Typography variant="body2" color="black">
          Status: {rep.process}
        </Typography>
      </CardContent>
+     </Paper>
      </Collapse>
      <CardActions disableSpacing>
-       <IconButton disabled={ rep.process === "Cancelled" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Cancelled"})} color="error">
+       <IconButton disabled={ rep.process === "Success" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Cancelled"})} color="error">
          <CancelIcon /> 
          <Typography>
            cancel
          </Typography>
        </IconButton>
-       <IconButton disabled={ rep.process === "Pending" && true } aria-label="share" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Pending"})} color="warning">
+       <IconButton disabled={rep.process === "Success" && true && rep.process !== "Pending" && true} aria-label="share" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Pending"})} color="warning">
          <PendingActionsIcon />
          <Typography>
            pending
@@ -154,7 +184,7 @@ const handleSubmit = async({id, email,process}) => {
        >
          <CheckCircleIcon />
          <Typography>
-           done
+           Completed
          </Typography>
        </IconButton>
      </CardActions>
@@ -171,6 +201,7 @@ const handleSubmit = async({id, email,process}) => {
      
       
       </Box>
+      </Grid>
     </Container>
   
   );
