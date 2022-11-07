@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Login from "../../pages/login";
 import Router from "../../routes/Router";
+import showNotification from "../Notification/Notif";
 import Sidebar from "../Sidebar/Sidebar";
 import TopNav from "../TopNav/TopNav";
 
@@ -13,6 +14,8 @@ const Layout = () => {
   useEffect(() => {
     if (localStorage.getItem("login")){
       navigate("/dashboard")
+      // showNotification()
+      
     }else{
       navigate("/login")
     }
