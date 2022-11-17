@@ -10,6 +10,7 @@ import Request from "../pages/Request";
 import Report from "../pages/Report";
 import FireDept from "../pages/FireDep";
 import PoliceDept from "../pages/policedep";
+import NotifIcon from "../components/Notification/NotifIcon";
 const Router = () => {
   return (
     <Routes>
@@ -24,7 +25,7 @@ const Router = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/admin/firedept" element={<FireDept />} />
       <Route path="/admin/policedept" element={<PoliceDept />} />
-
+      <Route path="/notifications" element={<NotifIcon />} />
     </Routes>
   );
 };

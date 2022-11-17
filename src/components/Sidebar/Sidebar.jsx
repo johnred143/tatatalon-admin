@@ -13,7 +13,13 @@ const Sidebar = () => {
     
     
     if(usertype === "admin"){
+     
        let navLinks = [
+      {
+        path: "/notification",
+        icon:"ri-apps-2-line",
+        display:"notif"
+      },
         {
           path: "/dashboard",
           icon: "ri-apps-2-line",
@@ -73,13 +79,14 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar__top">
+       
         <h2>
           <span>
             {/* <i class="ri-taxi-line"></i> */}
           </span>{" "}
          Talon Uno
         </h2>
-        
+          
       </div>
      
       <div className="sidebar__content">

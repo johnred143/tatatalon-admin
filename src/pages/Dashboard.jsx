@@ -9,11 +9,15 @@ import recommendCarsData from "../assets/dummy-data/recommendCars";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import NotifIcon from "../components/Notification/NotifIcon";
+import { Container } from "@mui/system";
 
 
 
 const Dashboard = () => {
   const[totalreq,settotalreq] =useState(0)
+  const [report, setReport] = useState([])
+
   const[totalrep,settotalrep] =useState(0)
   const[totaluser,settotaluser] =useState(0)
   const[totalpending,settotalpending] =useState(0)
@@ -25,6 +29,7 @@ settotalreq(con.data.sumreq)
 settotalrep(con.data.sumrep)
 settotalpending(con.data.total)
 settotaluser(con.data.user)
+setReport(con.data.replog)
     console.log(con.data)
     }
     fetchData();
@@ -33,6 +38,7 @@ console.log(error)
       
     }
   },[])
+  
   console.log(totaluser);
   const carObj = {
     title: "Total Request",
@@ -58,11 +64,14 @@ console.log(error)
     //icon: "ri-timer-flash-line",
   };
 
-  
+
   return (
+   
+  
     <div className="dashboard">
       <div className="dashboard__wrapper">
         <div className="dashboard__cards">
+       
           <SingleCard item={carObj} />
           <SingleCard item={tripObj} />
           <SingleCard item={clientObj} />
@@ -88,6 +97,8 @@ console.log(error)
         </div>
       </div>
     </div>
+
+    
   );
 };
 

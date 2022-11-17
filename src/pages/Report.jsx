@@ -24,6 +24,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -41,7 +42,7 @@ export default function Report() {
   const [replog, setReplog] = useState([])
   const [search, setSearch] = useState('')
   const [statuss, setStatuss] = useState('')
-
+  const navigate = useNavigate();
 
   console.log(search)
   const getData = async () => {
@@ -98,6 +99,7 @@ const handleSubmit = async({id, email,process}) => {
           timer: 1500
         })
         window.location.reload('/report');
+        navigate('/report')
     }catch(error){
         console.log(error)
     }
