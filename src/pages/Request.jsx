@@ -8,7 +8,7 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import {Typography, Paper, Grid, TextField} from '@mui/material';
+import {Typography, Paper, Grid, TextField, Button} from '@mui/material';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
@@ -23,6 +23,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { Stack } from '@mui/system';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -39,6 +40,7 @@ export default function Request() {
   const [expanded, setExpanded] = React.useState("");
   const [reqlog, setReqlog] = useState([])
   const [search, setSearch] = useState('')
+  const [statuss, setStatuss] = useState('')
   console.log(search)
   const getData = async () => {
     try {
@@ -93,23 +95,26 @@ const handleSubmit = async({id, email,process}) => {
       sx={{ input: { color: 'white' }, mb:2, width: 1200 }}
      onChange={(e) => setSearch(e.target.value)}
      />
-        <Grid
-        container
-        spacing={2}
-        
-        sx={{
-          pl:4,
-          borderTop: 'var(--Grid-borderWidth) solid',
-          borderLeft: 'var(--Grid-borderWidth) solid',
-          borderColor: 'divider',
-          '& > div': {
-            borderRight: 'var(--Grid-borderWidth) solid',
-            borderBottom: 'var(--Grid-borderWidth) solid',
-            borderColor: 'divider',
-          },
-        }}
-      >
-      <Box>
+      <Typography color="white"> Filter Status By: </Typography>
+      <Stack direction="row" spacing={1}>
+      <Button variant="contained" color="error" onClick={() => setStatuss("Cancelled")}>
+        Cancelled
+      </Button>
+      <Button variant="contained" color="warning" onClick={() => setStatuss("In process")}>
+        Pending
+      </Button>
+      <Button variant="contained" color="success" onClick={() => setStatuss("Success")}>
+        Success
+      </Button>
+      <Button variant="contained" color="primary" onClick={() => setStatuss("")}>
+        Show All
+      </Button>
+    </Stack>
+    
+   
+  
+    <Box sx={{ flexGrow: 1, p:5,  }} alignItems="flex-start">
+    <Grid container spacing={{ xs: 5, md: 5 }} columns={{ xs: 4, sm: 8, md: 12 }} alignItems="flex-start ">
         {
           reqlog.map(( users, index )=> ( 
               <React.Fragment key={index}>
@@ -117,10 +122,10 @@ const handleSubmit = async({id, email,process}) => {
           {/* Email: {users.email} */}
         </Typography> 
         {
-          users.request.filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
+          users.request.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
               <React.Fragment key={index}>
-<Card sx={{ maxWidth: 345,mt:5 }} style={{backgroundColor: "#fff "}}>
- {users.email}
+<Card sx={{ maxWidth: 345,mt:5,mr:3 }} style={{backgroundColor: "#fff "}}>
+ {rep.name}<br/>{rep.RequestTime}<br/>
      <ExpandMore
          expand={expanded === rep._id ? true : false}
          onClick={ () => handleExpandClick(rep._id)}
@@ -129,7 +134,7 @@ const handleSubmit = async({id, email,process}) => {
        >
          <ExpandMoreIcon />
        </ExpandMore>
-       //timestamp
+       
      <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
      <Paper elevation="5">
 
@@ -199,9 +204,9 @@ const handleSubmit = async({id, email,process}) => {
         }
      
      
-      
+     </Grid>
       </Box>
-      </Grid>
+     
     </Container>
   
   );

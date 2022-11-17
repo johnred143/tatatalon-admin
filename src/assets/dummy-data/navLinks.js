@@ -17,7 +17,16 @@ if(usertype === "admin"){
       //icon: "ri-shopping-bag-line",
       display: "Report",
     },
-   
+    {
+      path: "/report",
+      //icon: "ri-shopping-bag-line",
+      display: "Pending",
+    },
+    {
+      path: "/report",
+      //icon: "ri-shopping-bag-line",
+      display: "Pending",
+    },
   
   ];
 }
