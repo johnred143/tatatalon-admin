@@ -23,6 +23,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -205,6 +206,13 @@ const openSearch = () =>{
        </ExpandMore>
      <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
      <Paper elevation="5">
+     <CardContent>
+       
+       <Typography variant="body2" color="black">
+         Time: {moment(rep.ReportTime).format('LLLL')}  
+       </Typography>
+     </CardContent>
+    
      <CardContent>
        
        <Typography variant="body2" color="black">

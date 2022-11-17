@@ -24,7 +24,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { Stack } from '@mui/system';
-
+import moment from 'moment'
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -138,7 +138,12 @@ const handleSubmit = async({id, email,process}) => {
      <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
      <Paper elevation="5">
 
-    
+     <CardContent>
+       
+       <Typography variant="body2"color="black">
+         Time: {moment(rep.RequestTime).format('LLLL')}
+       </Typography>
+     </CardContent>
      <CardContent>
        
        <Typography variant="body2"color="black">
