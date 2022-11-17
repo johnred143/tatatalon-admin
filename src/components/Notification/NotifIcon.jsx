@@ -41,7 +41,7 @@ export default function NotifIcon() {
           console.log("data: ", res.data.reqlog.filter( (i) => i.email === localStorage.getItem("email") ) );
           console.log("data: ", res.data.replog.filter( (i) => i.email === localStorage.getItem("email") ) );
           setRequest( res.data.reqlog.filter( (i) => i.email === localStorage.getItem("email") )  );
-          setReport(res.data.replog.filter( (i) => i.email === localStorage.getItem("email") ))
+          setReport(res.data.replog)
       } catch (error) {
           console.log(error);
       }
