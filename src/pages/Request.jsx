@@ -41,6 +41,7 @@ export default function Request() {
   const [reqlog, setReqlog] = useState([])
   const [search, setSearch] = useState('')
   const [statuss, setStatuss] = useState('')
+ 
   console.log(search)
   const getData = async () => {
     try {
@@ -70,6 +71,7 @@ const handleSubmit = async({id, email,process}) => {
           showConfirmButton: true,
           timer: 1500
         })
+        window.location.reload('/request');
     }catch(error){
         console.log(error)
     }

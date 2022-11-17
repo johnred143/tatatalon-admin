@@ -97,7 +97,7 @@ const handleSubmit = async({id, email,process}) => {
           showConfirmButton: true,
           timer: 1500
         })
-        window.location.reload();
+        window.location.reload('/report');
     }catch(error){
         console.log(error)
     }
