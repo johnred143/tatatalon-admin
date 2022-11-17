@@ -39,7 +39,7 @@ export default function NotifIcon() {
           const res = await axios.get("https://barangay-talon-uno.vercel.app/log")
   
           console.log("data: ", res.data.reqlog.filter( (i) => i.email === localStorage.getItem("email") ) );
-          console.log("data: ", res.data.replog.filter( (i) => i.email === localStorage.getItem("email") ) );
+          console.log("data: ", res.data.replog);
           setRequest( res.data.reqlog.filter( (i) => i.email === localStorage.getItem("email") )  );
           setReport(res.data.replog)
       } catch (error) {
