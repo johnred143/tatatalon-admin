@@ -191,7 +191,7 @@ const openSearch = () =>{
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5,mr:3}} style={{backgroundColor: "#fff "}}>
         {rep.name} <br/>
-       {rep.ReportTime}  
+        Time: {moment(rep.ReportTime).format('LLLL')}  
        <br/>
      
      <ExpandMore
@@ -206,12 +206,7 @@ const openSearch = () =>{
        </ExpandMore>
      <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
      <Paper elevation="5">
-     <CardContent>
-       
-       <Typography variant="body2" color="black">
-         Time: {moment(rep.ReportTime).format('LLLL')}  
-       </Typography>
-     </CardContent>
+    
     
      <CardContent>
        
