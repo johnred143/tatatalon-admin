@@ -96,10 +96,12 @@ const handleSubmit = async({id, email,process}) => {
           showConfirmButton: true,
           timer: 1500
         })
+        window.location.reload();
     }catch(error){
         console.log(error)
     }
   console.log(id,email,process)
+  
 }
   const handleExpandClick = (e) => {
     if ( e === expanded) {
@@ -109,6 +111,7 @@ const handleSubmit = async({id, email,process}) => {
 
     }
     console.log(e)
+
   };
 const openSearch = () =>{
   Swal.fire({

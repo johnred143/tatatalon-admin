@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { NavLink, useNavigate } from "react-router-dom";
+import NotifIcon from "../Notification/NotifIcon";
 // import navLinks from "../../assets/dummy-data/navLinks";
 import "./sidebar.css";
 
@@ -78,8 +79,9 @@ const Sidebar = () => {
           </span>{" "}
          Talon Uno
         </h2>
+        
       </div>
-
+     
       <div className="sidebar__content">
         <div className="menu">
           <ul className="nav__list">
