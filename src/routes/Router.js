@@ -11,6 +11,7 @@ import Report from "../pages/Report";
 import FireDept from "../pages/FireDep";
 import PoliceDept from "../pages/policedep";
 import NotifIcon from "../components/Notification/NotifIcon";
+import Blotter from "../pages/Blotter";
 const Router = () => {
   return (
     <Routes>
@@ -18,6 +19,7 @@ const Router = () => {
         path="/"
         element={<Navigate to="/login" element={<Login />} />}
       />
+      <Route path="/blotter" element={<Blotter />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/report" element={<Report />} />
       <Route path="/request" element={<Request />} />

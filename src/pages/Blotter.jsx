@@ -36,9 +36,9 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function Request() {
+export default function Blotter() {
   const [expanded, setExpanded] = React.useState("");
-  const [reqlog, setReqlog] = useState([])
+  const [blotterlog, setBlotterlog] = useState([])
   const [search, setSearch] = useState('')
   const [statuss, setStatuss] = useState('')
  
@@ -47,8 +47,8 @@ export default function Request() {
     try {
         const res = await axios.get("https://barangay-talon-uno.vercel.app/log")
 
-        console.log("data: ", res.data.reqlog );
-      setReqlog(res.data.reqlog  );
+        console.log("data: ", res.data.blotterlog );
+      setBlotterlog(res.data.blotterlog  );
     } catch (error) {
         console.log(error);
     }
@@ -71,7 +71,7 @@ const handleSubmit = async({id, email,process}) => {
           showConfirmButton: true,
           timer: 1500
         })
-        window.location.reload('/request');
+        window.location.reload('/blotter');
     }catch(error){
         console.log(error)
     }
@@ -90,7 +90,7 @@ const handleSubmit = async({id, email,process}) => {
   return (
     <Container  bgcolor="#f2f4fb" sx={{ flexGrow: 1, p:2,mt:15 }}>
       <TextField 
-     label="Search for User Request" 
+     label="Search for Blotter Records" 
      color="secondary"
      focused 
      fullWidth 
@@ -118,16 +118,16 @@ const handleSubmit = async({id, email,process}) => {
     <Box sx={{ flexGrow: 1, p:5,  }} alignItems="flex-start">
     <Grid container spacing={{ xs: 5, md: 5 }} columns={{ xs: 4, sm: 8, md: 12 }} alignItems="flex-start ">
         {
-          reqlog.map(( users, index )=> ( 
+          blotterlog.map(( users, index )=> ( 
               <React.Fragment key={index}>
                  <Typography variant="h6" color="white">
           {/* Email: {users.email} */}
         </Typography> 
         {
-          users.request.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
+          users.blotter.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5,mr:3 }} style={{backgroundColor: "#fff "}}>
- {rep.name}<br/>{rep.RequestTime}<br/>
+ {rep.complaint}<br/>{rep.ReportTime}<br/>
      <ExpandMore
          expand={expanded === rep._id ? true : false}
          onClick={ () => handleExpandClick(rep._id)}
@@ -143,24 +143,24 @@ const handleSubmit = async({id, email,process}) => {
      <CardContent>
   
   <Typography variant="body2" color="text.secondary">
-    TimeStamp: {moment(rep.RequestTime).format('LLLL')}
+    TimeStamp: {moment(rep.ReportTime).format('LLLL')}
   </Typography>
 </CardContent>
 
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  IRBI: {rep.irbi}
+  address: {rep.address}
   </Typography>
 </CardContent>
 
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  VRR: {rep.vrr}
+  Contact: {rep.contact}
   </Typography>
 </CardContent>
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  region: {rep.region}
+  region: {rep.complainedFirstname}
   </Typography>
 </CardContent>
 
@@ -172,83 +172,34 @@ const handleSubmit = async({id, email,process}) => {
 
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  Province: {rep.province}
+  Province: {rep.complainedLastname}
   </Typography>
 </CardContent>
 
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  Barangay: {rep.barangay}
+  Barangay: {rep.complainedMiddlename}
   </Typography>
 </CardContent>
 
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  Contact no: {rep.contact}
+  Contact no: {rep.complainedAddress}
   </Typography>
 </CardContent>
 
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  Firstname: {rep.firstname}
+  Firstname: {rep.complainedAge}
   </Typography>
 </CardContent>
 <CardContent>
    
   <Typography variant="body2" color="text.secondary">
-    Middlename: {rep.middlename}
-  </Typography>
-</CardContent>
-<CardContent>
-  
-  <Typography variant="body2" color="text.secondary">
-    Lastname: {rep.lastname}
-  </Typography>
-</CardContent>
-<CardContent>
-  
-  <Typography variant="body2" color="text.secondary">
-    Nickname: {rep.nickname}
-  </Typography>
-</CardContent>
-<CardContent>
-  
-  <Typography variant="body2" color="text.secondary">
-    Age: {rep.age}
-  </Typography>
-</CardContent>
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-    Place of Birth: {rep.birthplace}
+    Middlename: {rep.description}
   </Typography>
 </CardContent>
 
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-    Address: {rep.address}
-  </Typography>
-</CardContent>
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-    Height:{rep.height} cm
-  </Typography>
-</CardContent>
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-    Weight:{rep.weight} kg
-  </Typography>
-</CardContent>
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-    Request Type: {rep.requesttype}
-  </Typography>
-</CardContent>
-
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-    Status:{rep.process}
-  </Typography>
-</CardContent>
      </Paper>
      </Collapse>
      <CardActions disableSpacing>
