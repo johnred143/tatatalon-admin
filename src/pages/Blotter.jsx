@@ -8,7 +8,7 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import {Typography, Paper, Grid, TextField, Button} from '@mui/material';
+import {Typography, Paper, Grid, TextField, Button, Divider} from '@mui/material';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
@@ -38,7 +38,7 @@ const ExpandMore = styled((props) => {
 
 export default function Blotter() {
   const [expanded, setExpanded] = React.useState("");
-  const [blotterlog, setBlotterlog] = useState([])
+  const [blotlog , setBlotlog] = useState([])
   const [search, setSearch] = useState('')
   const [statuss, setStatuss] = useState('')
  
@@ -47,8 +47,8 @@ export default function Blotter() {
     try {
         const res = await axios.get("https://barangay-talon-uno.vercel.app/log")
 
-        console.log("data: ", res.data.blotterlog );
-      setBlotterlog(res.data.blotterlog  );
+        console.log("data: ", res.data.blotlog  );
+      setBlotlog(res.data.blotlog   );
     } catch (error) {
         console.log(error);
     }
@@ -102,7 +102,7 @@ const handleSubmit = async({id, email,process}) => {
       <Button variant="contained" color="error" onClick={() => setStatuss("Cancelled")}>
         Cancelled
       </Button>
-      <Button variant="contained" color="warning" onClick={() => setStatuss("In process")}>
+      <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
         Pending
       </Button>
       <Button variant="contained" color="success" onClick={() => setStatuss("Success")}>
@@ -118,106 +118,111 @@ const handleSubmit = async({id, email,process}) => {
     <Box sx={{ flexGrow: 1, p:5,  }} alignItems="flex-start">
     <Grid container spacing={{ xs: 5, md: 5 }} columns={{ xs: 4, sm: 8, md: 12 }} alignItems="flex-start ">
         {
-          blotterlog.map(( users, index )=> ( 
+          blotlog.map(( users, index )=> ( 
               <React.Fragment key={index}>
                  <Typography variant="h6" color="white">
           {/* Email: {users.email} */}
         </Typography> 
         {
-          users.blotter.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
+          users.blotter.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.complainant.toLowerCase().includes(search);}).map((blot, index )=> (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5,mr:3 }} style={{backgroundColor: "#fff "}}>
- {rep.complaint}<br/>{rep.ReportTime}<br/>
+{blot.complainant}<br/>
+ TimeStamp: {moment(blot.ReportTime).format('LLLL')}
      <ExpandMore
-         expand={expanded === rep._id ? true : false}
-         onClick={ () => handleExpandClick(rep._id)}
+         expand={expanded === blot._id ? true : false}
+         onClick={ () => handleExpandClick(blot._id)}
          aria-expanded={expanded}
          aria-label="show more"
        >
          <ExpandMoreIcon />
        </ExpandMore>
        
-     <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
+     <Collapse in={expanded === blot._id ? true : false} timeout="auto" unmountOnExit>
      <Paper elevation="5">
 
      <CardContent>
   
   <Typography variant="body2" color="text.secondary">
-    TimeStamp: {moment(rep.ReportTime).format('LLLL')}
+    TimeStamp: {moment(blot.ReportTime).format('LLLL')}
   </Typography>
 </CardContent>
 
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  address: {rep.address}
+  Name of complainant: {blot.complainant}
   </Typography>
 </CardContent>
 
-<CardContent>
+ <CardContent>
   <Typography variant="body2" color="text.secondary">
-  Contact: {rep.contact}
+  Address: {blot.address}
   </Typography>
 </CardContent>
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  region: {rep.complainedFirstname}
+  Contact No: {blot.contact}
   </Typography>
-</CardContent>
+</CardContent> 
+<Divider/> 
 
-<CardContent>
+<Typography> Details of Person to be blottered</Typography>
+ <CardContent>
   <Typography variant="body2" color="text.secondary">
-  City/Municipality: Las Piñas
-  </Typography>
-</CardContent>
-
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-  Province: {rep.complainedLastname}
-  </Typography>
-</CardContent>
-
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-  Barangay: {rep.complainedMiddlename}
-  </Typography>
-</CardContent>
-
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-  Contact no: {rep.complainedAddress}
-  </Typography>
-</CardContent>
-
-<CardContent>
-  <Typography variant="body2" color="text.secondary">
-  Firstname: {rep.complainedAge}
+  Firstname: {blot.complainedFirstname}
   </Typography>
 </CardContent>
 <CardContent>
-   
   <Typography variant="body2" color="text.secondary">
-    Middlename: {rep.description}
+  Middlename: {blot.complainedMiddlename}
   </Typography>
 </CardContent>
-
+<CardContent>
+  <Typography variant="body2" color="text.secondary">
+  Lastname: {blot.complainedLastname}
+  </Typography>
+</CardContent>
+<CardContent>
+  <Typography variant="body2" color="text.secondary">
+  Address: {blot.complainedAddress}
+  </Typography>
+</CardContent>
+<CardContent>
+  <Typography variant="body2" color="text.secondary">
+  Age: {blot.complainedAge}
+  </Typography>
+</CardContent>
+<br/>
+<Divider/>
+<CardContent>
+  <Typography variant="body2" color="text.secondary">
+  Description: {blot.description}
+  </Typography>
+</CardContent>
+<Divider/>
+<CardContent>
+  <Typography variant="body2" color="text.secondary">
+  Status: {blot.process}
+  </Typography>
+</CardContent>
      </Paper>
      </Collapse>
      <CardActions disableSpacing>
-       <IconButton disabled={ rep.process === "Success" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Cancelled"})} color="error">
+       <IconButton disabled={ blot.process === "Success" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:blot._id, email:users.email, process:"Cancelled"})} color="error">
          <CancelIcon /> 
          <Typography>
            cancel
          </Typography>
        </IconButton>
-       <IconButton disabled={rep.process === "Success" && true && rep.process !== "Pending" && true} aria-label="share" onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Pending"})} color="warning">
+       <IconButton disabled={blot.process === "Success" && true && blot.process !== "Pending" && true} aria-label="share" onClick={ () => handleSubmit({id:blot._id, email:users.email, process:"Pending"})} color="warning">
          <PendingActionsIcon />
          <Typography>
            pending
          </Typography>
        </IconButton>
        <IconButton
-          disabled={ rep.process === "Success" && true }
-         onClick={ () => handleSubmit({id:rep._id, email:users.email, process:"Success"})}
+          disabled={ blot.process === "Success" && true }
+         onClick={ () => handleSubmit({id:blot._id, email:users.email, process:"Success"})}
          color="success"
        >
          <CheckCircleIcon />

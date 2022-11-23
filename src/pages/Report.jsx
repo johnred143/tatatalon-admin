@@ -233,6 +233,16 @@ const openSearch = () =>{
          Status: {rep.process}
        </Typography>
      </CardContent>
+     <CardContent>
+  <Typography variant="body2" color="text.secondary">
+    Photo:
+  </Typography>
+  <Avatar 
+   variant="square"
+  sx={{height:300, width:300}}
+  src={rep.Image}
+  />
+</CardContent>
      </Paper>
      </Collapse>
      <CardActions disableSpacing>

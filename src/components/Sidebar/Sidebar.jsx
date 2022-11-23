@@ -15,11 +15,7 @@ const Sidebar = () => {
     if(usertype === "admin"){
      
        let navLinks = [
-      {
-        path: "/notification",
-        icon:"ri-apps-2-line",
-        display:"notif"
-      },
+      
         {
           path: "/dashboard",
           icon: "ri-apps-2-line",
@@ -35,7 +31,11 @@ const Sidebar = () => {
           //icon: "ri-shopping-bag-line",
           display: "Report",
         },
-      
+        {
+          path: "/blotter",
+          //icon: "ri-shopping-bag-line",
+          display: "Blotter",
+        },
       
       
       ];
