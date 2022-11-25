@@ -58,7 +58,7 @@ useEffect(() => {
 },[])
 const handleSubmit = async({id, email,process}) => {
     try{
-      const res = await axios.post("https://barangay-talon-uno.vercel.app/admin/update", {
+      const res = await axios.post("https://barangay-talon-uno.vercel.app/admin/request", {
        ref: id,
          email: email,
          status: process
