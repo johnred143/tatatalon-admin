@@ -127,7 +127,7 @@ const handleSubmit = async({id, email,process}) => {
           users.request.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5,mr:3 }} style={{backgroundColor: "#fff "}}>
-{rep.name} <br/>
+{rep.firstname} <br/>
         Time: {moment(rep.ReportTime).format('LLLL')}  
        <br/>
      
