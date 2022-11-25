@@ -58,7 +58,7 @@ useEffect(() => {
 },[])
 const handleSubmit = async({id, email,process}) => {
     try{
-      const res = await axios.post("https://barangay-talon-uno.vercel.app/admin/report", {
+      const res = await axios.post("https://barangay-talon-uno.vercel.app/admin/blotter", {
        ref: id,
          email: email,
          status: process
@@ -127,7 +127,10 @@ const handleSubmit = async({id, email,process}) => {
           users.request.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5,mr:3 }} style={{backgroundColor: "#fff "}}>
- {rep.name}<br/>{rep.RequestTime}<br/>
+{rep.name} <br/>
+        Time: {moment(rep.ReportTime).format('LLLL')}  
+       <br/>
+     
      <ExpandMore
          expand={expanded === rep._id ? true : false}
          onClick={ () => handleExpandClick(rep._id)}
@@ -153,11 +156,11 @@ const handleSubmit = async({id, email,process}) => {
   </Typography>
 </CardContent>
 
-<CardContent>
+{/* <CardContent>
   <Typography variant="body2" color="text.secondary">
   VRR: {rep.vrr}
   </Typography>
-</CardContent>
+</CardContent> */}
 <CardContent>
   <Typography variant="body2" color="text.secondary">
   region: {rep.region}
