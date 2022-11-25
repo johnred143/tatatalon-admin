@@ -181,7 +181,7 @@ const handleSubmit = async({id, email,process}) => {
 
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-  Barangay: {rep.barangay}
+  Barangay: {rep.brgy}
   </Typography>
 </CardContent>
 
@@ -243,7 +243,7 @@ const handleSubmit = async({id, email,process}) => {
 </CardContent>
 <CardContent>
   <Typography variant="body2" color="text.secondary">
-    Request Type: {rep.requesttype}
+    Request Type: {rep.type}
   </Typography>
 </CardContent>
 
