@@ -106,9 +106,9 @@ const handleSubmit = async({id, email,process}) => {
       <Button variant="contained" color="error" onClick={() => setStatuss("Cancelled")}>
         Cancelled
       </Button>
-      <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
+      {/* <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
         Pending
-      </Button>
+      </Button> */}
       <Button variant="contained" color="success" onClick={() => setStatuss("Success")}>
         Success
       </Button>

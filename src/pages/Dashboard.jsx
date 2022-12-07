@@ -17,7 +17,7 @@ import { Container } from "@mui/system";
 const Dashboard = () => {
   const[totalreq,settotalreq] =useState(0)
   const [report, setReport] = useState([])
-
+  const[totalblotter,setTotalblotter] =useState(0)
   const[totalrep,settotalrep] =useState(0)
   const[totaluser,settotaluser] =useState(0)
   const[totalpending,settotalpending] =useState(0)
@@ -30,6 +30,7 @@ settotalrep(con.data.sumrep)
 settotalpending(con.data.total)
 settotaluser(con.data.user)
 setReport(con.data.replog)
+setTotalblotter(con.data.sumblot)
     console.log(con.data)
     }
     fetchData();
@@ -63,6 +64,11 @@ console.log(error)
     totalNumber: totalpending,
     //icon: "ri-timer-flash-line",
   };
+  const blotObj = {
+    title: "Pending Blotter",
+    totalNumber: totalblotter,
+    //icon: "ri-timer-flash-line",
+  };
 
 
   return (
@@ -76,8 +82,12 @@ console.log(error)
           <SingleCard item={tripObj} />
           <SingleCard item={clientObj} />
           <SingleCard item={distanceObj} />
+         
         </div>
-
+        <br/>
+        <div className="dashboard__cards">
+        <SingleCard item={blotObj} />
+        </div>
         {/* <div className="statics">
           <div className="stats">
             <h3 className="stats__title"></h3>
