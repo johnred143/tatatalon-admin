@@ -25,6 +25,7 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { Stack } from '@mui/system';
 import moment from 'moment'
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -104,6 +105,9 @@ const handleSubmit = async({id, email,process}) => {
       </Button>
       <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
         Pending
+      </Button>
+      <Button variant="contained" sx={{background: "#fbc02d"}} onClick={() => setStatuss("for Pickup")}>
+      for Pickup
       </Button>
       <Button variant="contained" color="success" onClick={() => setStatuss("Success")}>
         Success
