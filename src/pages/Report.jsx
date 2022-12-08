@@ -1,53 +1,67 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import {Typography, Paper, Grid, Button, TextField, InputLabel, FormControl, Input, FormHelperText, OutlinedInput, Divider, Stack} from '@mui/material';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { useState } from 'react';
-import Swal from 'sweetalert2';
-import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import {
+  Typography,
+  Paper,
+  Grid,
+  TextField,
+  Button,
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  InputAdornment,
+} from "@mui/material";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import { Stack } from "@mui/system";
+import moment from "moment";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import { useNavigate } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
   }),
 }));
 
-export default function Report() {
+export default function Blotter() {
   const [expanded, setExpanded] = React.useState("");
   const [replog, setReplog] = useState([])
-  const [search, setSearch] = useState('')
-  const [statuss, setStatuss] = useState('')
-  const [sort,setSort] = useState([])
-
-  const [repsort,setRepsort] = useState(false)
+  const [search, setSearch] = useState("");
+  const [statuss, setStatuss] = useState("");
+  const [sort, setSort] = useState([]);
+  const [submit, setSubmit] = useState(false);
   const navigate = useNavigate();
-
-  console.log(search)
+  const [blotsort, setBlotsort] = useState(false);
+  console.log(search);
   const getData = async () => {
     
     
@@ -83,12 +97,10 @@ export default function Report() {
         console.log(error);
     }
 }
-
-useEffect(() => {
-  getData();
-},[])
-
-const handleSubmit = async({id, email,process}) => {
+  useEffect(() => {
+    getData();
+  }, [submit]);
+  const handleSubmit = async({id, email,process}) => {
     try{
       const res = await axios.post("https://barangay-talon-uno.vercel.app/admin/report", {
        ref: id,
@@ -111,195 +123,221 @@ const handleSubmit = async({id, email,process}) => {
   console.log(id,email,process)
   
 }
+  
   const handleExpandClick = (e) => {
-    if ( e === expanded) {
+    if (e === expanded) {
       setExpanded("123123");
     } else {
       setExpanded(e);
-
     }
-    console.log(e)
-
+    console.log(e);
   };
-const openSearch = () =>{
-  Swal.fire({
-    title: 'Search User',
-    input: 'text',
-    inputAttributes: {
-      autocapitalize: 'off'
-    },
-    showCancelButton: true,
-    confirmButtonText: 'Look up',
-    showLoaderOnConfirm: true,
-    preConfirm: (login) => {
-      return fetch(`//api.github.com/users/${login}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(response.statusText)
-          }
-          return response.json()
-        })
-        .catch(error => {
-          Swal.showValidationMessage(
-            `Request failed: ${error}`
-          )
-        })
-    },
-    allowOutsideClick: () => !Swal.isLoading()
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: `${result.value.login}'s avatar`,
-        imageUrl: result.value.avatar_url
-      })
-    }
-  })
-}
 
   return (
-    <Container bgcolor="#f2f4fb" sx={{ flexGrow: 1, p:2,mt:15 }} >
-     <TextField 
-     label="Search for User Reports" 
-     color="secondary"
-     focused 
-     fullWidth 
-      sx={{ input: { color: 'white' }, mb:2, width: 1200 }}
-     onChange={(e) => setSearch(e.target.value)}
-     />
-     <Typography color="white"> Filter Status By: </Typography>
+    <Container bgcolor="#f2f4fb" sx={{ flexGrow: 1, p: 2, mt: 15 }}>
+      <Typography color="white" variant="h2" mb={2}>
+      Report
+      </Typography>
+
+      <TextField
+        label="Search for Report Records"
+        color="secondary"
+        focused
+        fullWidth
+        sx={{ input: { color: "white" }, mb: 2 }}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <Typography color="white"> Filter Status By: </Typography>
       <Stack direction="row" spacing={1}>
-      <Button variant="contained" color="error" onClick={() => setStatuss("Cancelled")}>
-        Cancelled
-      </Button>
-      {/* <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => setStatuss("Cancelled")}>
+          Cancelled
+        </Button>
+        {/* <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
         Pending
       </Button> */}
-      <Button variant="contained" color="success" onClick={() => setStatuss("Success")}>
-        Success
-      </Button>
-      <Button variant="contained" color="primary" onClick={() => setStatuss("")}>
-        Show All
-      </Button>
-      <Button variant="contained" color="primary" onClick={() => setRepsort(!repsort) }>
-        {repsort  ? "Newest-Oldest" : "Oldest-Newest"}
-      </Button>
-    </Stack>
-    
-   
-  
-    <Box sx={{ flexGrow: 1, p:5,  }} alignItems="flex-start">
-    <Grid container spacing={{ xs: 3, md: 5 }} columns={{ xs: 4, sm: 8, md: 12 }} alignItems="flex-start ">
-      
-        {
-          replog.map(( users, index ) => ( 
-              <React.Fragment key={index}>
-                 <Typography variant="h6" color="white">
-          {/* Email: {users.email} */}
-        </Typography> 
-        {
-          users.reports.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);})
-          .sort(
-            (a, b) =>
-            repsort ?   new moment(b.ReportTime).format("YYYYMMDD") - new moment(a.ReportTime).format("YYYYMMDD") :  
-            new moment(a.ReportTime).format("YYYYMMDD") - new moment(b.ReportTime).format("YYYYMMDD")
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => setStatuss("Success")}>
+          Success
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setStatuss("")}>
+          Show All
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setBlotsort(!blotsort)}>
+          {blotsort ? "Newest-Oldest" : "Oldest-Newest"}
+        </Button>
+      </Stack>
 
-            
-          ).map((rep, index ) => (
-              <React.Fragment key={index}>
-<Card sx={{ maxWidth: 345,mt:5,mr:3}} style={{backgroundColor: "#fff "}}>
-        {rep.name} <br/>
-        Time: {moment(rep.ReportTime).format('LLLL')}  
-       <br/>
-     
-     <ExpandMore
-         expand={expanded === rep._id ? true : false}
-         onClick={ () => handleExpandClick(rep._id)}
-         aria-expanded={expanded}
-         aria-label="show more"
-       >
-        
-         <ExpandMoreIcon />
-         
-       </ExpandMore>
-     <Collapse in={expanded === rep._id ? true : false} timeout="auto" unmountOnExit>
-     <Paper elevation="5">
-    
-    
-     <CardContent>
-       
-       <Typography variant="body2" color="black">
-         Name: {rep.name}  
-       </Typography>
-     </CardContent>
-    
-     <CardContent>
-       <Typography variant="body2" color="black">
-         Address: {rep.addressdetail}
-       </Typography>
-     </CardContent>
-     
-     <CardContent>
-       <Typography variant="body2" color="black">
-         Report Type: {rep.report}
-       </Typography>
-     </CardContent>
-     <CardContent>
-       <Typography variant="body2" color="black">
-         Status: {rep.process}
-       </Typography>
-     </CardContent>
-     <CardContent>
-  <Typography variant="body2" color="text.secondary">
-    Photo:
-  </Typography>
-  <Avatar 
-   variant="square"
-  sx={{height:300, width:300}}
-  src={rep.Image}
-  />
-</CardContent>
-     </Paper>
-     </Collapse>
-     <CardActions disableSpacing>
-       <IconButton disabled={ rep.process === "Success" && true } aria-label="add to favorites" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Cancelled"})} color="error">
-         <CancelIcon /> 
-         <Typography>
-           cancel
-         </Typography>
-       </IconButton>
-       <IconButton disabled={ rep.process === "Success" && true } aria-label="share" onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Pending"})} color="warning">
-         <PendingActionsIcon />
-         <Typography>
-           pending
-         </Typography>
-       </IconButton>
-       <IconButton
-         disabled={ rep.process === "Success" && true }
-         onClick={ () => handleSubmit({id:rep.ref, email:users.email, process:"Success"})}
-         color="success"
-       >
-        
-         <CheckCircleIcon />
-         <Typography>
-           done
-         </Typography>
-       </IconButton>
-     </CardActions>
-    
-   </Card>
-              </React.Fragment>
+      <Box color="white" mt={2} p={1}>
+        <Stack direction="column" gap={4} justifyContent="space-between">
+          {replog.map((users, index) =>
+            users.reports
+              .filter((item) => {
+                return statuss === "" ? item : item.process.includes(statuss);
+              })
+              .filter((item) => {
+                return search.toLowerCase() === ""
+                  ? item
+                  : item.name.toLowerCase().includes(search);
+              })
+              .sort((a, b) =>
+                blotsort
+                  ? new moment(b.requestTime).format("YYYYMMDD") -
+                    new moment(a.requestTime).format("YYYYMMDD")
+                  : new moment(a.requestTime).format("YYYYMMDD") -
+                    new moment(b.requestTime).format("YYYYMMDD")
+              )
+              .map((blot, index) => (
+                <React.Fragment key={index}>
+                  <Stack
+                    direction="row"
+                    width="100%"
+                    textAlign="center"
+                    justifyContent="space-between">
+                    <Box width="20%" textAlign="left">
+                      <Typography variant="h6" textTransform="capitalize">
+                        {blot.name} 
+                      </Typography>
+                    </Box>
+                    <Box width="60%">
+                      <Typography variant="inherit">
+                        {moment(blot.ReportTime).format("LLLL")}
+                      </Typography>
+                    </Box>
+                    <Box width="20%" textAlign="right" color="white">
+                      <IconButton
+                        disableRipple
+                        onClick={() => handleExpandClick(blot._id)}>
+                        <VisibilityRoundedIcon color="info" />
+                      </IconButton>
+                    </Box>
+                  </Stack>
+                  <Divider sx={{ bgcolor: "white" }} />
+                  <Dialog
+                    open={expanded === blot._id ? true : false}
+                    onClose={() => handleExpandClick(blot._id)}
+                    fullWidth
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle
+                      sx={{ textTransform: "capitalize" }}
+                      id="alert-dialog-title">
+                      {blot.name} 
+                    </DialogTitle>
+                    <DialogContent dividers>
+                      <Box id="alert-dialog-description">
+                      <CardContent>
+                          <Typography variant="body2" color="text.secondary">
+                            Name of Reporter: {blot.name}
+                          </Typography>
+                        </CardContent>
+                        <CardContent>
+                          <Typography variant="body2" color="text.secondary">
+                          Address: {blot.addressdetail}
+                          </Typography>
+                        </CardContent>
 
-          ))
-        }
-              </React.Fragment>
-          ))
-        }
-     
-     
-     </Grid>
+                        <CardContent>
+                          <Typography variant="body2" color="text.secondary">
+                          Report Type: {blot.report}
+                          </Typography>
+                        </CardContent>
+                        
+                        <Divider />
+
+                        <Typography>
+                          {" "}
+                        
+                        </Typography>
+                        
+                       
+                        <br />
+                        <Divider />
+                        <CardContent>
+                        <Typography variant="body2" color="text.secondary">
+                        Photo:
+                        </Typography>
+                        <Avatar 
+                          variant="square"
+                          sx={{height:300, width:300}}
+                          src={blot.Image}
+                        />
+                        </CardContent>
+                        <Divider />
+                        <CardContent>
+                          <Typography variant="body2" color="text.secondary">
+                            Status: {blot.process}
+                          </Typography>
+                        </CardContent>
+                      </Box>
+                    </DialogContent>
+                    <DialogActions>
+                      <IconButton
+                        disabled={blot.process === "Success" && false &&  blot.process === "Cancelled" &&
+                        false}
+                        aria-label="add to favorites"
+                        onClick={() =>
+                          handleSubmit({
+                            id: blot._id,
+                            email: users.email,
+                            process: "Cancelled",
+                          })
+                        }
+                        color="error">
+                        <CancelIcon />
+                        <Typography>cancel</Typography>
+                      </IconButton>
+                      {/* <IconButton
+                        disabled={
+                          blot.process === "Success" &&
+                          true &&
+                          blot.process !== "Pending" &&
+                          true
+                        }
+                        aria-label="share"
+                        onClick={() =>
+                          handleSubmit({
+                            id: blot._id,
+                            email: users.email,
+                            process: "Pending",
+                          })
+                        }
+                        color="warning">
+                        <PendingActionsIcon />
+                        <Typography>pending</Typography>
+                      </IconButton> */}
+                      <IconButton
+                        disabled={blot.process === "Success" && true}
+                        onClick={() =>
+                          handleSubmit({
+                            id: blot._id,
+                            email: users.email,
+                            process: "Success",
+                          })
+                        }
+                        color="success">
+                        <CheckCircleIcon />
+                        <Typography>Completed</Typography>
+                      </IconButton>
+                    </DialogActions>
+                  </Dialog>
+                </React.Fragment>
+              ))
+          )}
+        </Stack>
       </Box>
-  
+
+     
     </Container>
-  
   );
 }
