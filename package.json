@@ -24,6 +24,7 @@
     "recharts": "^2.1.13",
     "remixicon": "^2.5.0",
     "styled-components": "^5.3.6",
+    "sweetalert": "^2.1.2",
     "sweetalert2": "^11.4.37",
     "web-vitals": "^2.1.4"
   },

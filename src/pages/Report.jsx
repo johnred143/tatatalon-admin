@@ -42,6 +42,9 @@ export default function Report() {
   const [replog, setReplog] = useState([])
   const [search, setSearch] = useState('')
   const [statuss, setStatuss] = useState('')
+  const [sort,setSort] = useState([])
+
+  const [repsort,setRepsort] = useState(false)
   const navigate = useNavigate();
 
   console.log(search)
@@ -58,12 +61,14 @@ export default function Report() {
 
         switch (localStorage.getItem("usertype")) {
           case "police":
+            setSort(res.data.sortreport)
             setReplog(res.data.replog.map( i => ({
               ...i,
               reports: i.reports.filter( a => a.report === "Crime Related" )
             }) ) )
             break;
           case "fire":
+            setSort(res.data.sortreport)
             setReplog(res.data.replog.map( i => ({
               ...i,
               reports: i.reports.filter( a => a.report === "Fire" )
@@ -175,6 +180,9 @@ const openSearch = () =>{
       <Button variant="contained" color="primary" onClick={() => setStatuss("")}>
         Show All
       </Button>
+      <Button variant="contained" color="primary" onClick={() => setRepsort(!repsort) }>
+        {repsort  ? "Newest-Oldest" : "Oldest-Newest"}
+      </Button>
     </Stack>
     
    
@@ -189,7 +197,14 @@ const openSearch = () =>{
           {/* Email: {users.email} */}
         </Typography> 
         {
-          users.reports.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index ) => (
+          users.reports.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);})
+          .sort(
+            (a, b) =>
+            repsort ?   new moment(b.ReportTime).format("YYYYMMDD") - new moment(a.ReportTime).format("YYYYMMDD") :  
+            new moment(a.ReportTime).format("YYYYMMDD") - new moment(b.ReportTime).format("YYYYMMDD")
+
+            
+          ).map((rep, index ) => (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5,mr:3}} style={{backgroundColor: "#fff "}}>
         {rep.name} <br/>

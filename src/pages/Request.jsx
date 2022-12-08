@@ -42,7 +42,9 @@ export default function Request() {
   const [reqlog, setReqlog] = useState([])
   const [search, setSearch] = useState('')
   const [statuss, setStatuss] = useState('')
- 
+  const [sort,setSort] = useState([])
+
+  const [reqsort,setReqsort] = useState(false)
   console.log(search)
   const getData = async () => {
     try {
@@ -50,6 +52,7 @@ export default function Request() {
 
         console.log("data: ", res.data.reqlog );
       setReqlog(res.data.reqlog  );
+      setSort(res.data.sortrequest)
     } catch (error) {
         console.log(error);
     }
@@ -115,6 +118,9 @@ const handleSubmit = async({id, email,process}) => {
       <Button variant="contained" color="primary" onClick={() => setStatuss("")}>
         Show All
       </Button>
+      <Button variant="contained" color="primary" onClick={() => setReqsort(!reqsort) }>
+        {reqsort  ? "Newest-Oldest" : "Oldest-Newest"}
+      </Button>
     </Stack>
     
    
@@ -128,7 +134,14 @@ const handleSubmit = async({id, email,process}) => {
           {/* Email: {users.email} */}
         </Typography> 
         {
-          users.request.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);}).map((rep, index )=> (
+          users.request.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);})
+          .sort(
+            (a, b) =>
+            reqsort ?   new moment(b.requestTime).format("YYYYMMDD") - new moment(a.requestTime).format("YYYYMMDD") :  
+            new moment(a.requestTime).format("YYYYMMDD") - new moment(b.requestTime).format("YYYYMMDD")
+
+            
+          ).map((rep, index )=> (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5,mr:3 }} style={{backgroundColor: "#fff "}}>
 {rep.firstname} <br/>

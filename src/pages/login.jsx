@@ -365,11 +365,11 @@ const handle = () => {
           </LoadingButton>
                 </Grid>
                 <Grid container justifyContent="flex-end">
-              <Grid item>
+              {/* <Grid item>
                 <Link href="/signup" variant="body2">
                   Don't have an account? Sign up
                 </Link>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Grid container justifyContent="row-reverse">
               <Grid item>
@@ -440,7 +440,7 @@ const handle = () => {
         
       
     </Container> */}
-    <Container maxWidth="sm" component="main">
+    {/* <Container maxWidth="sm" component="main">
         <Box>
             <Paper>
             <Dialog component="form" onSubmit={handleSubmit2} open={open} onClose={handleClose}>
@@ -463,8 +463,8 @@ const handle = () => {
           />
         </DialogContent>
         <DialogActions>
-          {/* <LoadingButton onSubmit={sendOTP}  loading = {loading}
-              type="submit"> Send OTP</LoadingButton> */}
+          <LoadingButton onSubmit={sendOTP}  loading = {loading}
+              type="submit"> Send OTP</LoadingButton>
           <LoadingButton 
              loading = {loading}
               type="submit"
@@ -481,7 +481,7 @@ const handle = () => {
        
         
       
-    </Container>
+    </Container> */}
     
     </div>
   </ThemeProvider>

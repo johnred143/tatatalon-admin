@@ -36,7 +36,11 @@ const Sidebar = () => {
           //icon: "ri-shopping-bag-line",
           display: "Blotter",
         },
-      
+        {
+          path: "/makeblotter",
+          //icon: "ri-shopping-bag-line",
+          display: "Make a Blotter",
+        },
       
       ];
       setLinks(navLinks)

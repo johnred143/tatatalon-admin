@@ -41,14 +41,18 @@ export default function Blotter() {
   const [blotlog , setBlotlog] = useState([])
   const [search, setSearch] = useState('')
   const [statuss, setStatuss] = useState('')
- 
+  const [sort,setSort] = useState([])
+  
+
+  const [blotsort,setBlotsort] = useState(false)
   console.log(search)
   const getData = async () => {
     try {
         const res = await axios.get("https://barangay-talon-uno.vercel.app/log")
 
         console.log("data: ", res.data.blotlog  );
-      setBlotlog(res.data.blotlog   );
+      setBlotlog(res.data.blotlog);
+      setSort(res.data.sortreport)
     } catch (error) {
         console.log(error);
     }
@@ -102,14 +106,17 @@ const handleSubmit = async({id, email,process}) => {
       <Button variant="contained" color="error" onClick={() => setStatuss("Cancelled")}>
         Cancelled
       </Button>
-      <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
+      {/* <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
         Pending
-      </Button>
+      </Button> */}
       <Button variant="contained" color="success" onClick={() => setStatuss("Success")}>
         Success
       </Button>
       <Button variant="contained" color="primary" onClick={() => setStatuss("")}>
         Show All
+      </Button>
+      <Button variant="contained" color="primary" onClick={() =>setBlotsort(!blotsort)}>
+      {blotsort  ? "Newest-Oldest" : "Oldest-Newest"}
       </Button>
     </Stack>
     
@@ -124,11 +131,18 @@ const handleSubmit = async({id, email,process}) => {
           {/* Email: {users.email} */}
         </Typography> 
         {
-          users.blotter.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.complainant.toLowerCase().includes(search);}).map((blot, index )=> (
+          users.blotter.filter((item) => { return statuss === '' ? item : item.process.includes(statuss);}).filter((item) => { return search.toLowerCase() === '' ? item : item.complainant.toLowerCase().includes(search);})
+          .sort(
+            (a, b) =>
+            blotsort ?   new moment(b.RequestTime).format("YYYYMMDD") - new moment(a.RequestTime).format("YYYYMMDD") :  
+            new moment(a.RequestTime).format("YYYYMMDD") - new moment(b.RequestTime).format("YYYYMMDD")
+
+            
+          ).map((blot, index )=> (
               <React.Fragment key={index}>
 <Card sx={{ maxWidth: 345,mt:5,mr:3 }} style={{backgroundColor: "#fff "}}>
 {blot.complainant}<br/>
- TimeStamp: {moment(blot.ReportTime).format('LLLL')}
+ TimeStamp: {moment(blot.RequestTime).format('LLLL')}
      <ExpandMore
          expand={expanded === blot._id ? true : false}
          onClick={ () => handleExpandClick(blot._id)}
