@@ -42,9 +42,14 @@ const Sidebar = () => {
           display: "Make a Blotter",
         },
         {
-          path: "/users",
+          path: "/addusers",
           //icon: "ri-shopping-bag-line",
-          display: "Users",
+          display: "Add User",
+        },
+        {
+          path: "/useractivity",
+          //icon: "ri-shopping-bag-line",
+          display: "User Activity",
         },
       ];
       setLinks(navLinks)

@@ -92,7 +92,7 @@ import BusinessIcon from '@mui/icons-material/Business';
         title: 'User Created'
       });
       console.log(res.data);
-      navigate("/login");
+      navigate("/dashboard");
       
     } catch (error) {
       setError(true)
@@ -187,22 +187,18 @@ import BusinessIcon from '@mui/icons-material/Business';
   
 <ThemeProvider theme={theme}>
       
-      <Grid component={Paper} elevation={16} sx={{p:2,bgcolor:"#f2f4fb"}}>
+      <Grid sx={{p:2,bgcolor:"#inherit",mt:5}}>
       
-      <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }} >
-          <Card style={{ maxWidth: 500, padding: "20px 5px", margin: "0 auto" }}>
-            <CardContent>
-              <Typography gutterBottom variant="h5">
-                Sign Up
-            </Typography> 
-              <Typography variant="body2" color="textSecondary" component="p" gutterBottom>
-                Fill up the required values to be able to create an account.
-            </Typography> 
-              
+      <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 5 }} bgcolor="inherit" color="white">
+         
+             
                 <Grid container spacing={1}>
                 <Grid xs={12} sm={6} item>
                     <TextField 
+                    color="secondary"
+                    focused
                     required
+                    sx={{ input: { color: "white" }, mb: 2}}
                     placeholder="Enter Employee ID" 
                     label="Employee ID" 
                     variant="outlined"  
@@ -216,7 +212,10 @@ import BusinessIcon from '@mui/icons-material/Business';
                   </Grid>
                   <Grid xs={12} sm={6} item>
                     <TextField 
+                    color="secondary"
+                    focused
                     required
+                    sx={{ input: { color: "white" }, mb: 2 }}
                     placeholder="Enter first name" 
                     label="First Name" 
                     variant="outlined"  
@@ -243,13 +242,17 @@ import BusinessIcon from '@mui/icons-material/Business';
                   </Grid> */}
                   <Grid xs={12} sm={6} item>
                     <TextField
+                     color="secondary"
+                     focused
+                     required
+                     sx={{ input: { color: "white" }, mb: 2 }}
                     placeholder="Enter last name" 
                     name="lastname"
                     label="Last Name" 
                     variant="outlined" 
                     error={error}
                     onChange={handleChange} 
-                    value={inputs.lastname}  fullWidth required />
+                    value={inputs.lastname}  fullWidth  />
                   </Grid>
                   {/* <Grid item xs={12} sm={6}>
                     <TextField 
@@ -338,9 +341,14 @@ import BusinessIcon from '@mui/icons-material/Business';
                       ),
                   }}
                     />
+                     color="secondary"
+                    focused
+                    required
+                    sx={{ input: { color: "white" }, mb: 2 }}
                   </Grid> */}
                   <Grid item xs={12}>
                   <Autocomplete
+                  focused
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
@@ -352,7 +360,7 @@ import BusinessIcon from '@mui/icons-material/Business';
         id="controllable-states-demo"
         options={options}
         sx={{ width: 460 }}
-        renderInput={(params) => <TextField {...params} label="Department" />}
+        renderInput={(params) => <TextField {...params} label="Department"   sx={{ input: { color: "white" }, mb: 2 }}  color="secondary" focused/>}
       />
                   </Grid>
                   {/* <Grid item xs={12}>
@@ -368,8 +376,10 @@ import BusinessIcon from '@mui/icons-material/Business';
                   </Grid> */}
                   <Grid item xs={12} sm={6}>
                   <TextField
-                
+                color="secondary"
+                focused
                 required
+                sx={{ input: { color: "white" }, mb: 2 }}
                 error={error}
                 fullWidth
                 onChange={handleChange} 
@@ -391,8 +401,11 @@ import BusinessIcon from '@mui/icons-material/Business';
                   </Grid>
                   <Grid item xs={12} sm={6}>
                   <TextField
-    
-                required
+                  
+    color="warning"
+    focused
+    required
+    sx={{ input: { color: "white" }, mb: 2 }}
                 error={error}
                 fullWidth
                 onChange={handleChange} 
@@ -437,8 +450,7 @@ import BusinessIcon from '@mui/icons-material/Business';
                 </Grid>
               </Grid> */}
                 </Grid>
-            </CardContent>
-          </Card>
+          
          </Box>
         </Grid>
     </ThemeProvider>
