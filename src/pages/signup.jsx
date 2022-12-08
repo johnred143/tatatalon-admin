@@ -114,7 +114,7 @@ import BusinessIcon from '@mui/icons-material/Business';
         title: 'Sign up Failed'
       });
 
-      console.log("error signup: ", error.response.data);
+      console.log("error signup");
     }
     finally {
       setLoading(false)
@@ -187,9 +187,9 @@ import BusinessIcon from '@mui/icons-material/Business';
   
 <ThemeProvider theme={theme}>
       
-      <Grid component={Paper} elevation={16} sx={{p:2}}>
+      <Grid component={Paper} elevation={16} sx={{p:2,bgcolor:"#f2f4fb"}}>
       
-      <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
+      <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }} >
           <Card style={{ maxWidth: 500, padding: "20px 5px", margin: "0 auto" }}>
             <CardContent>
               <Typography gutterBottom variant="h5">
