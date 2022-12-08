@@ -71,7 +71,7 @@ import BusinessIcon from '@mui/icons-material/Business';
     setLoading(true)
     try {
       const res = await axios.post(
-        "https://barangay-talon-uno.vercel.app/register",
+        "https://barangay-talon-uno.vercel.app/admin/register",
         {
             employeeId: inputs.employeeId,
           firstname: inputs.firstname,
@@ -98,7 +98,7 @@ import BusinessIcon from '@mui/icons-material/Business';
         title: 'User Created'
       });
       console.log(res.data);
-      navigate("/confirm");
+      navigate("/login");
       
     } catch (error) {
       setError(true)
