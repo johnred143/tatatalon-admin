@@ -98,7 +98,7 @@ const handle = () => {
             localStorage.setItem('usertype',res.data.usertype)
             if(res.data.usertype === "fire"){
               navigate("/admin/firedept")
-            }if(res.data.usertype === "police"){
+            }if(res.data.usertype === "Police"){
               navigate("/admin/policedept")
             }if(res.data.usertype === "admin"){
               navigate("/dashboard")
