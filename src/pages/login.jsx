@@ -89,7 +89,7 @@ const handle = () => {
       try { 
           const res = await axios.post('https://barangay-talon-uno.vercel.app/adminlogin',{
             
-              employeeID: username,
+              employeeId: username,
               password: password, 
               
           })
@@ -365,11 +365,11 @@ const handle = () => {
           </LoadingButton>
                 </Grid>
                 <Grid container justifyContent="flex-end">
-              {/* <Grid item>
+              <Grid item>
                 <Link href="/signup" variant="body2">
                   Don't have an account? Sign up
                 </Link>
-              </Grid> */}
+              </Grid>
             </Grid>
             <Grid container justifyContent="row-reverse">
               <Grid item>
