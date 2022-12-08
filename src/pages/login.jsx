@@ -89,7 +89,7 @@ const handle = () => {
       try { 
           const res = await axios.post('https://barangay-talon-uno.vercel.app/adminlogin',{
             
-              username: username,
+              employeeID: username,
               password: password, 
               
           })
@@ -310,8 +310,8 @@ const handle = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   value={username}  
                   id="email"
-                  label="Email "
-                  name="email"
+                  label="Employee ID "
+                  name="Employee ID"
                   type="text"
                   autoComplete="email"
                   autoFocus
