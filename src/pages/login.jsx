@@ -451,7 +451,7 @@ const handle = () => {
             Kindly check your email : {localStorage.getItem("email")}, or check into your spam folder.
           </DialogContentText>
           <TextField
-            autoFocus
+            autoFocusn
             margin="dense"
             id="otp"
             onChange={({ target }) => setOtp(target.value)}
