@@ -11,22 +11,23 @@ const Layout = () => {
   const location = useLocation();
   const navigate =useNavigate();
   console.log(location.pathname)
-  useEffect(() => {
-    if (localStorage.getItem("login")){
-      navigate("/dashboard")
-      // showNotification()
+  // useEffect(() => {
+  //   if (localStorage.getItem("login")){
+  //     navigate("/dashboard")
+  //     // showNotification()
       
-    }else{
-      navigate("/login")
-    }
-  },[])
+  //   }else{
+  //     navigate("/login")
+  //   }
+  // },[])
   return (
    
     <div className="layout">
      { location.pathname === "/login" &&
       <Login/>
      }
-    
+     {/* { location.pathname !== "/signup" &&  location.pathname !== "/login" && <Sidebar />} */}
+
       { location.pathname !== "/login" && <div>
         
        <Sidebar />

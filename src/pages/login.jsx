@@ -98,7 +98,7 @@ const handle = () => {
             localStorage.setItem('usertype',res.data.usertype)
             if(res.data.usertype === "fire"){
               navigate("/admin/firedept")
-            }if(res.data.usertype === "Police"){
+            }if(res.data.usertype === "police"){
               navigate("/admin/policedept")
             }if(res.data.usertype === "admin"){
               navigate("/dashboard")
@@ -365,11 +365,11 @@ const handle = () => {
           </LoadingButton>
                 </Grid>
                 <Grid container justifyContent="flex-end">
-              <Grid item>
+              {/* <Grid item>
                 <Link href="/signup" variant="body2">
                   Don't have an account? Sign up
                 </Link>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Grid container justifyContent="row-reverse">
               <Grid item>

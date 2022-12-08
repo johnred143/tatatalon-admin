@@ -23,7 +23,7 @@ import BusinessIcon from '@mui/icons-material/Business';
       options: gendertypes,
       getOptionLabel: (option) => option.title,
     };
-    const options = ['Male', 'Female', 'Prefer Not To Say'];
+    const options = ['admin', 'police', 'fire'];
 
     const flatProps = {
       options: gendertypes.map((option) => option.title),
@@ -46,15 +46,9 @@ import BusinessIcon from '@mui/icons-material/Business';
   const [inputs, setInputs] = useState({
     firstname: "",
     employeeId:"",
-    middlename: "",
     lastname: "",
-    contactnumber: "",
-    email: "",
-    city: "Las Piñas City",
-    barangay: "Talon Uno",
-    street: "",
     department:"",
-    birthday: "",
+   
     password: "",
     confirmpassword: "",
   });
@@ -131,26 +125,26 @@ import BusinessIcon from '@mui/icons-material/Business';
     e.preventDefault();
     //console.log(inputs);
   
- if (! inputs.email){
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'bottom-start',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+//  if (! inputs.email){
+//   const Toast = Swal.mixin({
+//     toast: true,
+//     position: 'bottom-start',
+//     showConfirmButton: false,
+//     timer: 3000,
+//     timerProgressBar: true,
+//     didOpen: (toast) => {
+//       toast.addEventListener('mouseenter', Swal.stopTimer)
+//       toast.addEventListener('mouseleave', Swal.resumeTimer)
+//     }
+//   })
   
-  Toast.fire({
-    icon: 'error',
-    title: 'Email is Required'
-  });
+//   Toast.fire({
+//     icon: 'error',
+//     title: 'Email is Required'
+//   });
   
- }
- else if (! inputs.firstname){
+//  }
+  if (! inputs.firstname){
   const Toast = Swal.mixin({
     toast: true,
     position: 'bottom-start',
@@ -212,7 +206,7 @@ import BusinessIcon from '@mui/icons-material/Business';
                     placeholder="Enter Employee ID" 
                     label="Employee ID" 
                     variant="outlined"  
-                    name="Employee ID"
+                    name="employeeId"
                     error={error}
                     onChange={handleChange} 
                     value={inputs.employeeId} 
@@ -417,13 +411,13 @@ import BusinessIcon from '@mui/icons-material/Business';
               }}
               />
                   </Grid>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                   <FormControlLabel
                     
                     control={<Checkbox required value="agree" color="primary" />}
                     label="I agree to the terms and condition."
                   />
-                </Grid>
+                </Grid> */}
                   <Grid item xs={12}>
                   <LoadingButton 
                loading = {loading}
@@ -432,16 +426,16 @@ import BusinessIcon from '@mui/icons-material/Business';
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 >
-               SignIn
+               Register User
             </LoadingButton>
                   </Grid>
-                  <Grid container justifyContent="flex-end">
+                  {/* <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link href="/login" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
-              </Grid>
+              </Grid> */}
                 </Grid>
             </CardContent>
           </Card>
