@@ -39,6 +39,7 @@ import Swal from "sweetalert2";
 import { Stack } from "@mui/system";
 import moment from "moment";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import { useNavigate } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -58,7 +59,9 @@ export default function UserActivity() {
   const [statuss, setStatuss] = useState("");
   const [sort, setSort] = useState([]);
   const [submit, setSubmit] = useState(false);
-
+  const [password, setPassword] = useState("");
+  const [confirmpass, setConfirmpass] = useState("");
+  const navigate = useNavigate()
   const [blotsort, setBlotsort] = useState(false);
   console.log(search);
   const getData = async () => {
@@ -89,10 +92,11 @@ export default function UserActivity() {
       Swal.fire({
         position: "bottom-end",
         icon: "success",
-        title: "Status Changed",
+        title: "User Disabled",
         showConfirmButton: true,
         timer: 1500,
       });
+      navigate('/useractivity')
       // window.location.reload('/blotter');
     } catch (error) {
       console.log(error);
@@ -109,9 +113,59 @@ export default function UserActivity() {
     }
     console.log(e);
   };
-
+  const handleChangPass = async (id) => {
+    try {
+      const res = await axios.post(
+        "https://barangay-talon-uno.vercel.app/admin/userchangepassword",
+        {
+          employeeId: id,
+         password: password,
+        }
+      );
+      console.log(res.data);
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "Password Changed",
+        showConfirmButton: true,
+        timer: 1500,
+      });
+      navigate('/useractivity')
+      // window.location.reload('/blotter');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmit(false);
+    }
+    console.log(password);
+  };
+  const handleSubmitPass = (e) => {
+    e.preventDefault();
+    //console.log(inputs);
+  
+  if (password !== confirmpass){
+      const Toast = Swal.mixin({
+              toast: true,
+              position: 'bottom-start',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+            
+            Toast.fire({
+              icon: 'error',
+              title: 'Password do not match'
+            });
+    }else{
+      handleChangPass();
+}
+  };
   return (
-    <Container bgcolor="#f2f4fb" sx={{ flexGrow: 1, p: 2, mt: 15 }}>
+    <Container component="form" onSubmit={handleSubmitPass} bgcolor="#f2f4fb" sx={{ flexGrow: 1, p: 2, mt: 15 }}>
       <Typography color="white" variant="h2" mb={2}>
         Users
       </Typography>
@@ -261,7 +315,35 @@ export default function UserActivity() {
                         </CardContent>
                         <br />
                         <Divider />
-                        
+                        <CardContent>
+                          
+                        <TextField
+                          label="Password"
+                          color="secondary"
+                          //focused
+                          fullWidth
+                          value={password}
+                         
+                          sx={{ input: { color: "black" }, mb: 2 }}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                         <TextField
+                          label="Confirm Password"
+                          color="secondary"
+                          //focused
+                          fullWidth
+                          value={confirmpass}
+                         
+                          sx={{ input: { color: "black" }, mb: 2 }}
+                          onChange={(e) => setConfirmpass(e.target.value)}
+                        />
+                        <Button
+                        onClick={handleSubmitPass}
+                        type="submit"
+                        >
+                          Change Password
+                        </Button>
+                        </CardContent>
                       </Box>
                     </DialogContent>
                     <DialogActions>
