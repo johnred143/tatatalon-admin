@@ -51,14 +51,14 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function Blotter() {
+export default function History() {
   const [expanded, setExpanded] = React.useState("");
   const [blotlog, setBlotlog] = useState([]);
   const [search, setSearch] = useState("");
   const [statuss, setStatuss] = useState("");
   const [sort, setSort] = useState([]);
   const [submit, setSubmit] = useState(false);
-
+  const [history,setHistory] = useState([])
   const [blotsort, setBlotsort] = useState(false);
   console.log(search);
   const getData = async () => {
@@ -67,7 +67,9 @@ export default function Blotter() {
 
       console.log("data: ", res.data.blotlog);
       setBlotlog(res.data.blotlog);
+      setHistory(res.data.history)
       setSort(res.data.sortreport);
+      console.log(res.data.history);
     } catch (error) {
       console.log(error);
     }
@@ -113,7 +115,7 @@ export default function Blotter() {
   return (
     <Container bgcolor="#f2f4fb" sx={{ flexGrow: 1, p: 2, mt: 15 }}>
       <Typography color="white" variant="h2" mb={2}>
-        Blotter
+        History
       </Typography>
 
       <TextField
@@ -126,27 +128,27 @@ export default function Blotter() {
       />
       <Typography color="white"> Filter Status By: </Typography>
       <Stack direction="row" spacing={1}>
-        <Button
+        {/* <Button
           variant="contained"
           color="error"
           onClick={() => setStatuss("Cancelled")}>
           Cancelled
-        </Button>
+        </Button> */}
         {/* <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
         Pending
       </Button> */}
-        <Button
+        {/* <Button
           variant="contained"
           color="success"
           onClick={() => setStatuss("Success")}>
           Success
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           variant="contained"
           color="primary"
           onClick={() => setStatuss("")}>
           Show All
-        </Button>
+        </Button> */}
         <Button
           variant="contained"
           color="primary"
@@ -157,22 +159,22 @@ export default function Blotter() {
 
       <Box color="white" mt={2} p={1}>
         <Stack direction="column" gap={4} justifyContent="space-between">
-          {blotlog.map((users, index) =>
-            users.blotter
+          {history.map((users, index) =>
+            users.history
               .filter((item) => {
                 return statuss === "" ? item : item.process.includes(statuss);
               })
               .filter((item) => {
                 return search.toLowerCase() === ""
                   ? item
-                  : item.complainant.toLowerCase().includes(search);
+                  : item.activity.toLowerCase().includes(search);
               })
               .sort((a, b) =>
                 blotsort
-                  ? new moment(b.RequestTime).format("YYYYMMDD") -
-                    new moment(a.RequestTime).format("YYYYMMDD")
-                  : new moment(a.RequestTime).format("YYYYMMDD") -
-                    new moment(b.RequestTime).format("YYYYMMDD")
+                  ? new moment(b.ReportTime).format("YYYYMMDD") -
+                    new moment(a.ReportTime).format("YYYYMMDD")
+                  : new moment(a.ReportTime).format("YYYYMMDD") -
+                    new moment(b.ReportTime).format("YYYYMMDD")
               )
               .map((blot, index) => (
                 <React.Fragment key={index}>
@@ -183,12 +185,13 @@ export default function Blotter() {
                     justifyContent="space-between">
                     <Box width="20%" textAlign="left">
                       <Typography variant="h6" textTransform="capitalize">
-                        {blot.complainant}
+                      
+                        {blot.Activity}
                       </Typography>
                     </Box>
                     <Box width="60%">
                       <Typography variant="inherit">
-                        {moment(blot.RequestTime).format("LLLL")}
+                        {moment(blot.ReportTime).format("LLLL")}
                       </Typography>
                     </Box>
                     <Box width="20%" textAlign="right" color="white">
@@ -209,70 +212,21 @@ export default function Blotter() {
                     <DialogTitle
                       sx={{ textTransform: "capitalize" }}
                       id="alert-dialog-title">
-                      {blot.complainant}
+                      {moment(blot.ReportTime).format("LLLL")}
                     </DialogTitle>
                     <DialogContent dividers>
                       <Box id="alert-dialog-description">
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Name of complainant: {blot.complainant}
+                           Activity: {blot.Activity}
+
                           </Typography>
                         </CardContent>
 
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Address: {blot.address}
-                          </Typography>
-                        </CardContent>
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Contact No: {blot.contact}
-                          </Typography>
-                        </CardContent>
+                       
                         <Divider />
 
-                        <Typography>
-                          {" "}
-                          Details of Person to be blottered
-                        </Typography>
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Firstname: {blot.complainedFirstname}
-                          </Typography>
-                        </CardContent>
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Middlename: {blot.complainedMiddlename}
-                          </Typography>
-                        </CardContent>
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Lastname: {blot.complainedLastname}
-                          </Typography>
-                        </CardContent>
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Address: {blot.complainedAddress}
-                          </Typography>
-                        </CardContent>
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Age: {blot.complainedAge}
-                          </Typography>
-                        </CardContent>
-                        <br />
-                        <Divider />
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Description: {blot.description}
-                          </Typography>
-                        </CardContent>
-                        <Divider />
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Status: {blot.process}
-                          </Typography>
-                        </CardContent>
+                      
                       </Box>
                     </DialogContent>
                     <DialogActions>
@@ -290,7 +244,7 @@ export default function Blotter() {
                         <CancelIcon />
                         <Typography>cancel</Typography>
                       </IconButton>
-                      {/* <IconButton
+                      <IconButton
                         disabled={
                           blot.process === "Success" &&
                           true &&
@@ -308,7 +262,7 @@ export default function Blotter() {
                         color="warning">
                         <PendingActionsIcon />
                         <Typography>pending</Typography>
-                      </IconButton> */}
+                      </IconButton>
                       <IconButton
                         disabled={blot.process === "Success" && true}
                         onClick={() =>
@@ -318,7 +272,6 @@ export default function Blotter() {
                             process: "Success",
                           })
                         }
-                        
                         color="success">
                         <CheckCircleIcon />
                         <Typography>Completed</Typography>

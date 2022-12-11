@@ -15,6 +15,7 @@ import Blotter from "../pages/Blotter";
 import BLotterCheckout from "../pages/Blotter/BlotterCheckout";
 import Signup from "../pages/signup";
 import UserActivity from "../pages/UserActivity";
+import History from "../pages/History";
 // import Blotter from "../pages/Blotter";
 const Router = () => {
   return (
@@ -23,6 +24,7 @@ const Router = () => {
         path="/"
         element={<Navigate to="/login" element={<Login />} />}
       />
+       <Route path="/history" element={<History />} />
        <Route path="/useractivity" element={<UserActivity />} />
       <Route path="/addusers" element={<Signup />} />
       <Route path="/makeblotter" element={<BLotterCheckout />} />

@@ -75,14 +75,14 @@ export default function UserActivity() {
   useEffect(() => {
     getData();
   }, [submit]);
-  const handleSubmit = async ({ id, email, process }) => {
+  const handleSubmit = async ({ id, email, process}) => {
     try {
       const res = await axios.post(
-        "https://barangay-talon-uno.vercel.app/admin/blotter",
+        "https://barangay-talon-uno.vercel.app/admin/adminedit",
         {
           ref: id,
           email: email,
-          status: process,
+          disable: process,
         }
       );
       console.log(res.data);
@@ -117,7 +117,7 @@ export default function UserActivity() {
       </Typography>
 
       <TextField
-        label="Search for Blotter Records"
+        label="Search for User Records"
         color="secondary"
         focused
         fullWidth
@@ -126,16 +126,16 @@ export default function UserActivity() {
       />
       <Typography color="white"> Filter Status By: </Typography>
       <Stack direction="row" spacing={1}>
-        <Button
+        {/* <Button
           variant="contained"
           color="error"
           onClick={() => setStatuss("Cancelled")}>
           Cancelled
-        </Button>
+        </Button> */}
         {/* <Button variant="contained" color="warning" onClick={() => setStatuss("Pending")}>
         Pending
       </Button> */}
-        <Button
+        {/* <Button
           variant="contained"
           color="success"
           onClick={() => setStatuss("Success")}>
@@ -146,7 +146,7 @@ export default function UserActivity() {
           color="primary"
           onClick={() => setStatuss("")}>
           Show All
-        </Button>
+        </Button> */}
         <Button
           variant="contained"
           color="primary"
@@ -166,13 +166,18 @@ export default function UserActivity() {
                     textAlign="center"
                     justifyContent="space-between">
                     <Box width="20%" textAlign="left">
+                       
                       <Typography variant="h6" textTransform="capitalize" color="white">
-                        {users.firstname}
+                      <Avatar
+                        variant="circle"
+                        sx={{height:80, width:80}}
+                        src={users.image}
+                        />{users.firstname} {users.middlename} {users.lastname}
                       </Typography>
                     </Box>
                     <Box width="60%">
                       <Typography variant="inherit">
-                      {users.middlename}
+                      {users.street} {users.barangay} {users.city}
                       </Typography>
                     </Box>
                     <Box width="20%" textAlign="right" color="white">
@@ -193,88 +198,88 @@ export default function UserActivity() {
                     <DialogTitle
                       sx={{ textTransform: "capitalize" }}
                       id="alert-dialog-title">
-                       {users.firstname}
+                       {users.firstname} {users.lastname}
                     </DialogTitle>
                     <DialogContent dividers>
                       <Box id="alert-dialog-description">
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Name of complainant:   {users.firstname}
+                            Name: {users.firstname} {users.middlename} {users.lastname}
                           </Typography>
                         </CardContent>
 
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Address:   {users.firstname}
+                            Address: {users.street} {users.barangay} {users.city}
                           </Typography>
                         </CardContent>
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Contact No:   {users.firstname}
+                            Contact No:   {users.number}
                           </Typography>
                         </CardContent>
                         <Divider />
 
                         <Typography>
                           {" "}
-                          Details of Person to be blottered
+                          
                         </Typography>
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Firstname:  {users.firstname}
+                            Email:  {users.email}
                           </Typography>
                         </CardContent>
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Middlename:   {users.firstname}
+                            gender:   {users.gender}
                           </Typography>
                         </CardContent>
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Lastname:   {users.firstname}
+                            birthday:   {users.birthday}
                           </Typography>
                         </CardContent>
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Address:   {users.firstname}
+                            Status:   {users.disable}
                           </Typography>
                         </CardContent>
                         <CardContent>
                           <Typography variant="body2" color="text.secondary">
-                            Age:   {users.firstname}
+                               
+                          </Typography>
+                          <Avatar 
+                          variant="square"
+                          sx={{height:300, width:300}}
+                          src={users.image}
+                        />
+                        </CardContent>
+                        <CardContent>
+                          <Typography variant="body2" color="text.secondary">
+                            ID:   {users._id}
                           </Typography>
                         </CardContent>
                         <br />
                         <Divider />
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Description:   {users.firstname}
-                          </Typography>
-                        </CardContent>
-                        <Divider />
-                        <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            Status:  {users.firstname}
-                          </Typography>
-                        </CardContent>
+                        
                       </Box>
                     </DialogContent>
                     <DialogActions>
                       <IconButton
-                        disabled={users.process === "Success" && true}
+                        disabled={users.process === "disable" && true}
                         aria-label="add to favorites"
                         onClick={() =>
                           handleSubmit({
                             id: users._id,
                             email: users.email,
-                            process: "Cancelled",
+                            process: "disable",
                           })
                         }
                         color="error">
                         <CancelIcon />
-                        <Typography>cancel</Typography>
+                        <Typography>Disable User</Typography>
                       </IconButton>
-                      <IconButton
+                      {/* <IconButton
                         disabled={
                           users.process === "Success" &&
                           true &&
@@ -292,20 +297,20 @@ export default function UserActivity() {
                         color="warning">
                         <PendingActionsIcon />
                         <Typography>pending</Typography>
-                      </IconButton>
-                      <IconButton
-                        disabled={users.process === "Success" && true}
+                      </IconButton> */}
+                      {/* <IconButton
+                        disabled={users.disable === "disable" && true}
                         onClick={() =>
                           handleSubmit({
                             id: users._id,
                             email: users.email,
-                            process: "Success",
+                            disable: "disable",
                           })
                         }
                         color="success">
                         <CheckCircleIcon />
-                        <Typography>Completed</Typography>
-                      </IconButton>
+                        <Typography>Activate</Typography>
+                      </IconButton> */}
                     </DialogActions>
                   </Dialog>
                 </React.Fragment>
