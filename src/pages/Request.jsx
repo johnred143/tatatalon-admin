@@ -292,6 +292,11 @@ export default function Blotter() {
                             Status: {blot.process}
                           </Typography>
                         </CardContent>
+                        <CardContent>
+                          <Typography variant="body2" color="text.secondary">
+                            Proof of Residency: {blot.image}
+                          </Typography>
+                        </CardContent>
                       </Box>
                     </DialogContent>
                     <DialogActions>

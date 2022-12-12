@@ -78,12 +78,12 @@ export default function UserActivity() {
   useEffect(() => {
     getData();
   }, [submit]);
-  const handleSubmit = async ({ id, email, process}) => {
+  const handleSubmit = async ({  email, process}) => {
     try {
       const res = await axios.post(
         "https://barangay-talon-uno.vercel.app/admin/adminedit",
         {
-          ref: id,
+        
           email: email,
           disable: process,
         }
@@ -103,7 +103,7 @@ export default function UserActivity() {
     } finally {
       setSubmit(false);
     }
-    console.log(id, email, process);
+    console.log( email, process);
   };
   const handleExpandClick = (e) => {
     if (e === expanded) {
@@ -113,18 +113,19 @@ export default function UserActivity() {
     }
     console.log(e);
   };
-  const handleChangPass = async (id) => {
+const handleChangPass = async () => {
     try {
       const res = await axios.post(
-        "https://barangay-talon-uno.vercel.app/admin/userchangepassword",
+        "https://barangay-talon-uno.vercel.app/admin/changepassword_user",
         {
-          employeeId: id,
-         password: password,
+          
+         newpassword: password,
         }
       );
       console.log(res.data);
+      alert("success")
       Swal.fire({
-        position: "bottom-end",
+        position: "top-end",
         icon: "success",
         title: "Password Changed",
         showConfirmButton: true,
@@ -348,13 +349,13 @@ export default function UserActivity() {
                     </DialogContent>
                     <DialogActions>
                       <IconButton
-                        disabled={users.process === "disable" && true}
+                        disabled={users.process === "false" && false}
                         aria-label="add to favorites"
                         onClick={() =>
                           handleSubmit({
                             id: users._id,
                             email: users.email,
-                            process: "disable",
+                            process: "true",
                           })
                         }
                         color="error">
