@@ -393,7 +393,7 @@ import BusinessIcon from '@mui/icons-material/Business';
                 InputProps={{
                   startAdornment: (
                       <InputAdornment position="start">
-                          <LockIcon color="inherit" />
+                          <LockIcon sx={{color:"white"}} color="white" />
                       </InputAdornment>
                   ),
               }}
@@ -402,7 +402,7 @@ import BusinessIcon from '@mui/icons-material/Business';
                   <Grid item xs={12} sm={6}>
                   <TextField
                   
-    color="warning"
+    color="secondary"
     focused
     required
     sx={{ input: { color: "white" }, mb: 2 }}
@@ -418,7 +418,7 @@ import BusinessIcon from '@mui/icons-material/Business';
                 InputProps={{
                   startAdornment: (
                       <InputAdornment position="start">
-                          <LockIcon color="inherit" />
+                          <LockIcon sx={{color:"white"}} color="white" />
                       </InputAdornment>
                   ),
               }}

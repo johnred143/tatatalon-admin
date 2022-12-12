@@ -283,8 +283,7 @@ export default function Blotter() {
                     </DialogContent>
                     <DialogActions>
                       <IconButton
-                        disabled={blot.process === "Success" && false &&  blot.process === "Cancelled" &&
-                        false}
+                        disabled={ blot.process === "Cancelled" && true || blot.process === "Success" && true}
                         aria-label="add to favorites"
                         onClick={() =>
                           handleSubmit({
@@ -317,7 +316,7 @@ export default function Blotter() {
                         <Typography>pending</Typography>
                       </IconButton> */}
                       <IconButton
-                        disabled={blot.process === "Success" && true}
+                        disabled={blot.process === "Cancelled" && true || blot.process === "Success" && true}
                         onClick={() =>
                           handleSubmit({
                             id: blot._id,

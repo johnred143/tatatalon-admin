@@ -302,7 +302,7 @@ export default function Blotter() {
                     <DialogActions>
                       <IconButton
                         disabled={
-                           blot.process === "Cancelled" && true || blot.process === "Success" && true
+                          blot.process === "Cancelled" && true || blot.process === "Success" && true
                           }
                         aria-label="add to favorites"
                         onClick={() =>
