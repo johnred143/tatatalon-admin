@@ -277,7 +277,24 @@ export default function Blotter() {
                     </DialogContent>
                     <DialogActions>
                       <IconButton
-                        disabled={blot.process === "Success" && true}
+                        disabled={()=> {
+                          if ( blot.process === "Pending" )
+                          {
+                            return false
+                          } 
+                          else if ( blot.process === "Cancelled" )
+                          {
+                            return true
+                          } else if ( blot.process === "Success" )
+                          {
+                            return true
+                          } else {
+                            return false
+                          }
+                   
+                          
+
+                        }}
                         aria-label="add to favorites"
                         onClick={() =>
                           handleSubmit({
@@ -290,25 +307,7 @@ export default function Blotter() {
                         <CancelIcon />
                         <Typography>cancel</Typography>
                       </IconButton>
-                      {/* <IconButton
-                        disabled={
-                          blot.process === "Success" &&
-                          true &&
-                          blot.process !== "Pending" &&
-                          true
-                        }
-                        aria-label="share"
-                        onClick={() =>
-                          handleSubmit({
-                            id: blot._id,
-                            email: users.email,
-                            process: "Pending",
-                          })
-                        }
-                        color="warning">
-                        <PendingActionsIcon />
-                        <Typography>pending</Typography>
-                      </IconButton> */}
+                    
                       <IconButton
                         disabled={blot.process === "Success" && true}
                         onClick={() =>

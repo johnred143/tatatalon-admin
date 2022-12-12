@@ -78,14 +78,14 @@ export default function UserActivity() {
   useEffect(() => {
     getData();
   }, [submit]);
-  const handleSubmit = async ({  email, process}) => {
+  const handleSubmit = async ({  email, disable }) => {
     try {
       const res = await axios.post(
-        "https://barangay-talon-uno.vercel.app/admin/adminedit",
+        "https://barangay-talon-uno.vercel.app/admin/useredit",
         {
         
           email: email,
-          disable: process,
+          disable: disable,
         }
       );
       console.log(res.data);
@@ -97,13 +97,13 @@ export default function UserActivity() {
         timer: 1500,
       });
       navigate('/useractivity')
-      // window.location.reload('/blotter');
+     window.location.reload('/useractivity');
     } catch (error) {
       console.log(error);
     } finally {
       setSubmit(false);
     }
-    console.log( email, process);
+    console.log( email);
   };
   const handleExpandClick = (e) => {
     if (e === expanded) {
@@ -113,13 +113,17 @@ export default function UserActivity() {
     }
     console.log(e);
   };
-const handleChangPass = async () => {
+const handleChangPass = async ({email}) => {
     try {
       const res = await axios.post(
         "https://barangay-talon-uno.vercel.app/admin/changepassword_user",
         {
-          
+          email:email,
          newpassword: password,
+        }, {
+          headers:{
+            "Authorization": "Bearer " + `${localStorage.getItem('T')}`  
+          }
         }
       );
       console.log(res.data);
@@ -132,7 +136,7 @@ const handleChangPass = async () => {
         timer: 1500,
       });
       navigate('/useractivity')
-      // window.location.reload('/blotter');
+     window.location.reload('/useractivity');
     } catch (error) {
       console.log(error);
     } finally {
@@ -147,7 +151,7 @@ const handleChangPass = async () => {
   if (password !== confirmpass){
       const Toast = Swal.mixin({
               toast: true,
-              position: 'bottom-start',
+              position: 'top-end',
               showConfirmButton: false,
               timer: 3000,
               timerProgressBar: true,
@@ -339,7 +343,7 @@ const handleChangPass = async () => {
                           onChange={(e) => setConfirmpass(e.target.value)}
                         />
                         <Button
-                        onClick={handleSubmitPass}
+                        onClick={() => handleChangPass({email: users.email}) }
                         type="submit"
                         >
                           Change Password
@@ -349,18 +353,18 @@ const handleChangPass = async () => {
                     </DialogContent>
                     <DialogActions>
                       <IconButton
-                        disabled={users.process === "false" && false}
+                        disabled={users.disable}
                         aria-label="add to favorites"
                         onClick={() =>
                           handleSubmit({
-                            id: users._id,
+                            
                             email: users.email,
-                            process: "true",
+                            disable: true,
                           })
                         }
                         color="error">
                         <CancelIcon />
-                        <Typography>Disable User</Typography>
+                        <Typography> Disable User </Typography>
                       </IconButton>
                       {/* <IconButton
                         disabled={
@@ -381,19 +385,19 @@ const handleChangPass = async () => {
                         <PendingActionsIcon />
                         <Typography>pending</Typography>
                       </IconButton> */}
-                      {/* <IconButton
-                        disabled={users.disable === "disable" && true}
+                      <IconButton
+                        disabled={!users.disable}
                         onClick={() =>
                           handleSubmit({
-                            id: users._id,
+                            
                             email: users.email,
-                            disable: "disable",
+                            disable: false,
                           })
                         }
                         color="success">
                         <CheckCircleIcon />
                         <Typography>Activate</Typography>
-                      </IconButton> */}
+                      </IconButton>
                     </DialogActions>
                   </Dialog>
                 </React.Fragment>
