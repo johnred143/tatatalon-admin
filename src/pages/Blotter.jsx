@@ -93,7 +93,9 @@ export default function Blotter() {
         showConfirmButton: true,
         timer: 1500,
       });
-      // window.location.reload('/blotter');
+      navigate('/blotter')
+
+      window.location.reload('/blotter');
     } catch (error) {
       console.log(error);
     } finally {
