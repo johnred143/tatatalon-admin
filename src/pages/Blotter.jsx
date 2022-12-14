@@ -85,6 +85,7 @@ export default function Blotter() {
           ref: id,
           email: email,
           status: process,
+          employeeId: localStorage.getItem('employeeId')
         }
       );
       console.log(res.data);

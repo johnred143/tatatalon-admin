@@ -186,7 +186,7 @@ export default function History() {
                     <Box width="20%" textAlign="left">
                       <Typography variant="h6" textTransform="capitalize">
                       
-                      {blot.employeeId }{blot.Activity}
+                     {blot.Activity}
                       </Typography>
                     </Box>
                     <Box width="60%">

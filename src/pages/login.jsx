@@ -96,7 +96,7 @@ const handle = () => {
           if(res.data.login){
             localStorage.setItem('login',res.data.login);
             localStorage.setItem('usertype',res.data.usertype)
-            //localStorage.setItem('empID',res.data.username);
+            localStorage.setItem('employeeId',res.data.employeeId);
             if(res.data.usertype === "fire"){
               navigate("/admin/firedept")
             }if(res.data.usertype === "police"){

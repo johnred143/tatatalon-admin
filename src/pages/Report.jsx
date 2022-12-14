@@ -105,7 +105,8 @@ export default function Blotter() {
       const res = await axios.post("https://barangay-talon-uno.vercel.app/admin/report", {
        ref: id,
          email: email,
-         status: process
+         status: process,
+         employeeId: localStorage.getItem('employeeId')
       })
         console.log(res.data)
         Swal.fire({
