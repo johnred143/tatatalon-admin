@@ -96,6 +96,7 @@ const handle = () => {
           if(res.data.login){
             localStorage.setItem('login',res.data.login);
             localStorage.setItem('usertype',res.data.usertype)
+            //localStorage.setItem('empID',res.data.username);
             if(res.data.usertype === "fire"){
               navigate("/admin/firedept")
             }if(res.data.usertype === "police"){
@@ -140,6 +141,7 @@ const handle = () => {
                //localStorage.setItem('T', res.data.token);
              // localStorage.setItem('user', res.data.userInfo);
              //  console.log('user', res.data.user)
+           
                console.log('email', res.data.email)
                setOpen(true)
               // navigate('/mainpage')

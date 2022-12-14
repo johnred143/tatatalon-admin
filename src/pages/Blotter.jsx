@@ -39,6 +39,7 @@ import Swal from "sweetalert2";
 import { Stack } from "@mui/system";
 import moment from "moment";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import { useNavigate } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -58,6 +59,7 @@ export default function Blotter() {
   const [statuss, setStatuss] = useState("");
   const [sort, setSort] = useState([]);
   const [submit, setSubmit] = useState(false);
+  const navigate = useNavigate()
 
   const [blotsort, setBlotsort] = useState(false);
   console.log(search);

@@ -186,7 +186,7 @@ export default function History() {
                     <Box width="20%" textAlign="left">
                       <Typography variant="h6" textTransform="capitalize">
                       
-                        {blot.Activity}
+                      {blot.employeeId }{blot.Activity}
                       </Typography>
                     </Box>
                     <Box width="60%">
@@ -230,7 +230,7 @@ export default function History() {
                       </Box>
                     </DialogContent>
                     <DialogActions>
-                      <IconButton
+                      {/* <IconButton
                         disabled={blot.process === "Success" && true}
                         aria-label="add to favorites"
                         onClick={() =>
@@ -275,7 +275,7 @@ export default function History() {
                         color="success">
                         <CheckCircleIcon />
                         <Typography>Completed</Typography>
-                      </IconButton>
+                      </IconButton> */}
                     </DialogActions>
                   </Dialog>
                 </React.Fragment>
